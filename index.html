@@ -6,918 +6,831 @@
   <title>Felice | პრემიუმ ავეჯის სახლი</title>
   <style>
     :root {
-      --bg:        #0e1a14;
-      --bg2:       #152219;
-      --bg3:       #1c2e20;
-      --card:      #1a2b1e;
-      --accent:    #c9a96e;
-      --accent2:   #a8834a;
-      --green:     #2d5a3d;
-      --text:      #f0ede8;
-      --muted:     #9aab9f;
-      --border:    rgba(201,169,110,.18);
+      --bg:      #ffffff;
+      --bg2:     #f8f5f0;
+      --bg3:     #f2ede6;
+      --card:    #ffffff;
+      --accent:  #c9a96e;
+      --accent2: #a8834a;
+      --green:   #2d5a3d;
+      --text:    #1a1a1a;
+      --muted:   #777;
+      --border:  rgba(201,169,110,.25);
+      --shadow:  0 4px 20px rgba(0,0,0,.08);
     }
-
     *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-
     html { scroll-behavior: smooth; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg2); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
 
-    body {
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-    }
-
-    /* ─── SCROLLBAR ─── */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: var(--bg); }
-    ::-webkit-scrollbar-thumb { background: var(--accent2); border-radius: 3px; }
-
-    /* ─── HEADER ─── */
+    /* ── HEADER ── */
     header {
-      position: sticky; top: 0; z-index: 200;
-      background: rgba(14,26,20,.92);
-      backdrop-filter: blur(14px);
+      position: sticky; top: 0; z-index: 300;
+      background: rgba(255,255,255,.95);
+      backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
-      padding: .85rem 5%;
-      display: flex; align-items: center; justify-content: space-between;
+      padding: .75rem 5%;
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
     }
+    .logo { display: flex; align-items: center; gap: .65rem; text-decoration: none; }
+    .logo img { height: 50px; width: 50px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); }
+    .logo-text { font-size: 1.4rem; font-weight: 800; letter-spacing: 3px; color: var(--accent); }
+    .logo-sub  { font-size: .6rem; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; }
 
-    .logo {
-      display: flex; align-items: center; gap: .75rem;
-      text-decoration: none;
-    }
-    .logo img {
-      height: 48px; width: 48px; border-radius: 50%;
-      object-fit: cover; border: 2px solid var(--accent);
-    }
-    .logo-text {
-      font-size: 1.5rem; font-weight: 700;
-      letter-spacing: 3px; color: var(--accent);
-      text-transform: uppercase;
-    }
-    .logo-sub {
-      font-size: .65rem; letter-spacing: 2px;
-      color: var(--muted); text-transform: uppercase;
-    }
-
-    nav { display: flex; align-items: center; gap: 1.8rem; }
-    nav a {
-      color: var(--muted); text-decoration: none;
-      font-size: .88rem; letter-spacing: .05em;
-      transition: color .25s;
-    }
+    nav { display: flex; align-items: center; gap: 1.6rem; }
+    nav a { color: var(--muted); text-decoration: none; font-size: .88rem; transition: color .2s; }
     nav a:hover { color: var(--accent); }
-
     .nav-cta {
-      background: var(--accent); color: var(--bg) !important;
-      padding: .45rem 1.1rem; border-radius: 4px;
-      font-weight: 600; letter-spacing: .05em;
-      transition: background .25s, transform .2s !important;
+      background: var(--accent); color: #fff !important;
+      padding: .42rem 1.1rem; border-radius: 4px;
+      font-weight: 600;
     }
-    .nav-cta:hover { background: var(--accent2) !important; transform: translateY(-1px); }
+    .nav-cta:hover { background: var(--accent2) !important; }
 
-    .burger {
-      display: none; background: none; border: none;
-      cursor: pointer; flex-direction: column; gap: 5px;
+    /* Language switcher */
+    .lang-switcher { display: flex; align-items: center; gap: .35rem; }
+    .lang-btn {
+      background: none; border: 1.5px solid var(--border);
+      border-radius: 5px; padding: .25rem .45rem;
+      font-size: .82rem; cursor: pointer; transition: .2s;
+      display: flex; align-items: center; gap: .25rem;
+      color: var(--muted);
     }
-    .burger span {
-      display: block; width: 24px; height: 2px;
-      background: var(--accent); border-radius: 2px;
-      transition: .3s;
-    }
+    .lang-btn:hover, .lang-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(201,169,110,.08); }
 
-    /* ─── HERO ─── */
+    .burger { display: none; background: none; border: none; cursor: pointer; flex-direction: column; gap: 5px; }
+    .burger span { display: block; width: 22px; height: 2px; background: var(--accent); border-radius: 2px; }
+
+    /* ── HERO ── */
     .hero {
       position: relative; min-height: 88vh;
-      display: flex; align-items: center; justify-content: center;
-      text-align: center; padding: 4rem 5%;
-      overflow: hidden;
+      display: flex; align-items: center; justify-content: center; text-align: center;
+      padding: 4rem 5%; overflow: hidden;
     }
     .hero-bg {
       position: absolute; inset: 0;
-      background:
-        linear-gradient(rgba(14,26,20,.7), rgba(14,26,20,.85)),
-        url('https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=1600&q=80')
-        center/cover no-repeat;
+      background: linear-gradient(rgba(255,255,255,.45), rgba(255,255,255,.6)),
+        url('https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=1600&q=80') center/cover no-repeat;
     }
-    .hero-content { position: relative; z-index: 1; max-width: 780px; }
+    .hero-content { position: relative; z-index: 1; max-width: 740px; }
     .hero-badge {
       display: inline-block; margin-bottom: 1.2rem;
-      background: var(--border); border: 1px solid var(--accent);
-      color: var(--accent); font-size: .75rem;
-      letter-spacing: 2px; padding: .35rem 1rem; border-radius: 20px;
-      text-transform: uppercase;
+      border: 1px solid var(--accent); color: var(--accent);
+      font-size: .74rem; letter-spacing: 2px; padding: .3rem 1rem;
+      border-radius: 20px; text-transform: uppercase;
+      background: rgba(201,169,110,.06);
     }
-    .hero h1 {
-      font-size: clamp(2rem, 6vw, 3.8rem);
-      font-weight: 800; line-height: 1.15; margin-bottom: 1.2rem;
-    }
+    .hero h1 { font-size: clamp(2rem,6vw,3.6rem); font-weight: 800; line-height: 1.15; margin-bottom: 1rem; color: #1a1a1a; }
     .hero h1 span { color: var(--accent); }
-    .hero p {
-      font-size: clamp(.95rem, 2vw, 1.2rem);
-      color: var(--muted); margin-bottom: 2.2rem; max-width: 560px; margin-inline: auto;
-    }
-    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
-
-    .btn {
-      display: inline-flex; align-items: center; gap: .5rem;
-      padding: .85rem 2rem; border-radius: 5px;
-      font-weight: 600; font-size: .92rem;
-      text-decoration: none; transition: .25s; cursor: pointer; border: none;
-    }
-    .btn-primary {
-      background: var(--accent); color: var(--bg);
-    }
-    .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); }
-    .btn-outline {
-      background: transparent;
-      border: 1.5px solid var(--accent); color: var(--accent);
-    }
-    .btn-outline:hover { background: var(--accent); color: var(--bg); }
-    .btn-ai {
-      background: linear-gradient(135deg,#1a3d2b,#2d5a3d);
-      border: 1.5px solid var(--accent); color: var(--accent);
-      position: relative; overflow: hidden;
-    }
-    .btn-ai::before {
-      content:''; position:absolute; inset:0;
-      background: linear-gradient(135deg, rgba(201,169,110,.15), transparent);
-      opacity: 0; transition: .3s;
-    }
-    .btn-ai:hover::before { opacity: 1; }
-    .btn-ai:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(201,169,110,.25); }
-
+    .hero p { font-size: clamp(.92rem,2vw,1.15rem); color: #555; margin-bottom: 2rem; max-width: 540px; margin-inline: auto; }
+    .hero-btns { display: flex; gap: .85rem; flex-wrap: wrap; justify-content: center; }
     .scroll-hint {
-      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
-      display: flex; flex-direction: column; align-items: center; gap: .3rem;
-      color: var(--muted); font-size: .72rem; letter-spacing: 1px;
-      animation: bounce 2s infinite;
+      position: absolute; bottom: 1.8rem; left: 50%; transform: translateX(-50%);
+      color: var(--muted); font-size: .68rem; letter-spacing: 2px;
+      display: flex; flex-direction: column; align-items: center; gap: .25rem;
+      animation: bob 2s infinite;
     }
-    .scroll-hint::after {
-      content:''; display:block; width:1px; height:40px;
-      background: linear-gradient(var(--accent),transparent);
-    }
-    @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
+    .scroll-hint::after { content:''; display:block; width:1px; height:36px; background: linear-gradient(var(--accent),transparent); }
+    @keyframes bob { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(5px)} }
 
-    /* ─── SECTIONS ─── */
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-flex; align-items: center; gap: .45rem;
+      padding: .8rem 1.8rem; border-radius: 5px;
+      font-weight: 600; font-size: .9rem; text-decoration: none;
+      transition: .22s; cursor: pointer; border: none;
+    }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); box-shadow: 0 6px 18px rgba(201,169,110,.35); }
+    .btn-outline { background: transparent; border: 1.5px solid var(--accent); color: var(--accent); }
+    .btn-outline:hover { background: var(--accent); color: #fff; }
+    .btn-ai {
+      background: var(--green); color: #fff;
+      border: 1.5px solid var(--green);
+    }
+    .btn-ai:hover { background: #235030; transform: translateY(-2px); }
+
+    /* ── SECTIONS ── */
     section { padding: 5rem 5%; }
-    .section-label {
-      font-size: .72rem; letter-spacing: 3px; color: var(--accent);
-      text-transform: uppercase; margin-bottom: .6rem;
-    }
-    .section-title {
-      font-size: clamp(1.5rem, 3.5vw, 2.4rem);
-      font-weight: 700; margin-bottom: 1rem;
-    }
-    .section-sub { color: var(--muted); max-width: 520px; margin-bottom: 3rem; }
+    .section-label { font-size: .7rem; letter-spacing: 3px; color: var(--accent); text-transform: uppercase; margin-bottom: .5rem; }
+    .section-title { font-size: clamp(1.5rem,3.5vw,2.3rem); font-weight: 700; margin-bottom: .8rem; }
+    .section-sub { color: var(--muted); max-width: 500px; margin-bottom: 2.8rem; font-size: .92rem; }
 
-    /* ─── FEATURES BAR ─── */
-    .features-bar {
-      background: var(--bg2);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: 2rem 5%;
-    }
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(190px,1fr));
-      gap: 1.5rem; text-align: center;
-    }
-    .feature-item { padding: 1rem; }
-    .feature-icon { font-size: 1.8rem; margin-bottom: .6rem; }
-    .feature-title { font-weight: 600; color: var(--accent); font-size: .95rem; }
-    .feature-desc { font-size: .8rem; color: var(--muted); margin-top: .25rem; }
+    /* ── FEATURES BAR ── */
+    .features-bar { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 2.2rem 5%; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); gap: 1.5rem; text-align: center; }
+    .feature-item { padding: .8rem; }
+    .feature-icon { font-size: 1.7rem; margin-bottom: .5rem; }
+    .feature-title { font-weight: 600; color: var(--accent); font-size: .9rem; }
+    .feature-desc { font-size: .78rem; color: var(--muted); margin-top: .2rem; }
 
-    /* ─── PRODUCTS ─── */
-    .products-section { background: var(--bg2); }
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px,1fr));
-      gap: 1.8rem;
-    }
+    /* ── PRODUCT CARDS ── */
+    .products-section { background: var(--bg); }
+    .products-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(270px,1fr)); gap: 1.8rem; }
     .product-card {
-      background: var(--card);
-      border: 1px solid var(--border);
+      background: var(--card); border: 1px solid var(--border);
       border-radius: 10px; overflow: hidden;
-      transition: transform .3s, box-shadow .3s;
+      box-shadow: var(--shadow); transition: transform .3s, box-shadow .3s;
     }
-    .product-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 35px rgba(0,0,0,.45);
-    }
-    .product-img {
-      position: relative; height: 240px;
-      background: #1f2f23; overflow: hidden;
-    }
-    .product-img img {
-      width: 100%; height: 100%; object-fit: cover;
-      transition: transform .4s;
-    }
-    .product-card:hover .product-img img { transform: scale(1.04); }
+    .product-card:hover { transform: translateY(-5px); box-shadow: 0 14px 36px rgba(0,0,0,.12); }
+    .product-img { position: relative; height: 240px; background: var(--bg3); overflow: hidden; }
+    .product-img img { width:100%; height:100%; object-fit:cover; transition: transform .4s; }
+    .product-card:hover .product-img img { transform: scale(1.05); }
     .product-badge {
       position: absolute; top: .8rem; left: .8rem;
-      background: var(--accent); color: var(--bg);
-      font-size: .68rem; font-weight: 700;
-      letter-spacing: 1px; padding: .25rem .65rem; border-radius: 3px;
-      text-transform: uppercase;
+      background: var(--accent); color: #fff;
+      font-size: .66rem; font-weight: 700; letter-spacing: 1px;
+      padding: .22rem .65rem; border-radius: 3px; text-transform: uppercase;
     }
-    .product-body { padding: 1.3rem; }
-    .product-name { font-weight: 600; font-size: 1.05rem; margin-bottom: .3rem; }
-    .product-desc { font-size: .82rem; color: var(--muted); margin-bottom: 1rem; }
+    .product-body { padding: 1.2rem; }
+    .product-name { font-weight: 600; font-size: 1rem; margin-bottom: .25rem; }
+    .product-desc { font-size: .8rem; color: var(--muted); margin-bottom: .9rem; }
     .product-footer { display: flex; align-items: center; justify-content: space-between; }
-    .product-price { font-size: 1.15rem; font-weight: 700; color: var(--accent); }
+    .product-price { font-size: 1.1rem; font-weight: 700; color: var(--accent); }
     .add-btn {
-      background: var(--green); border: 1px solid var(--accent);
-      color: var(--accent); padding: .4rem .9rem;
-      border-radius: 4px; font-size: .8rem; cursor: pointer;
-      transition: .25s;
+      background: var(--bg2); border: 1px solid var(--accent);
+      color: var(--accent); padding: .38rem .85rem;
+      border-radius: 4px; font-size: .78rem; cursor: pointer; transition: .22s;
     }
-    .add-btn:hover { background: var(--accent); color: var(--bg); }
+    .add-btn:hover { background: var(--accent); color: #fff; }
 
-    /* ─── 360° VIEWER ─── */
-    .arrivals-section { background: var(--bg3); }
-    .arrivals-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px,1fr));
-      gap: 2rem;
-    }
-    .viewer-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px; overflow: hidden;
-    }
+    /* ── 360° VIEWER ── */
+    .arrivals-section { background: var(--bg2); }
+    .arrivals-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(290px,1fr)); gap: 2rem; }
+    .viewer-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); }
     .viewer-stage {
       position: relative; height: 300px;
-      background: #1a2820;
-      cursor: grab; user-select: none;
-      display: flex; align-items: center; justify-content: center;
-      overflow: hidden;
+      background: #f5f2ee; cursor: grab; user-select: none;
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
     }
     .viewer-stage:active { cursor: grabbing; }
-    .viewer-stage img {
-      max-width: 88%; max-height: 88%; object-fit: contain;
-      pointer-events: none;
-      transform-style: preserve-3d;
-      transition: none;
-      will-change: transform;
-    }
-    /* When using sprite sheet (boucle chair) */
-    .viewer-stage.sprite {
-      background: #e8e4de;
-    }
+    .viewer-stage img { max-width:88%; max-height:88%; object-fit:contain; pointer-events:none; will-change:transform; }
+    .viewer-stage.sprite { background: #eae6e0; }
     .viewer-sprite {
-      width: 100%; height: 100%;
-      background-repeat: no-repeat;
-      background-size: 400% 300%; /* 4 cols × 3 rows = 12 frames */
-      cursor: grab;
-      image-rendering: crisp-edges;
+      width:100%; height:100%;
+      background-repeat: no-repeat; background-size: 400% 300%;
+      cursor: grab; image-rendering: crisp-edges;
     }
     .viewer-hint {
-      position: absolute; bottom: .7rem; left: 50%; transform: translateX(-50%);
-      background: rgba(14,26,20,.82); color: var(--muted);
-      font-size: .68rem; letter-spacing: 1px;
-      padding: .3rem .8rem; border-radius: 20px;
+      position: absolute; bottom: .65rem; left: 50%; transform: translateX(-50%);
+      background: rgba(26,26,26,.72); color: #eee;
+      font-size: .66rem; letter-spacing: 1px; padding: .28rem .75rem; border-radius: 20px;
       white-space: nowrap; pointer-events: none;
-      display: flex; align-items: center; gap: .35rem;
     }
     .viewer-badge-360 {
       position: absolute; top: .7rem; right: .7rem;
-      background: var(--accent); color: var(--bg);
-      font-size: .65rem; font-weight: 800;
-      letter-spacing: 1px; padding: .25rem .55rem; border-radius: 3px;
+      background: var(--accent); color: #fff;
+      font-size: .63rem; font-weight: 800; letter-spacing: 1px;
+      padding: .22rem .55rem; border-radius: 3px;
     }
-    .viewer-body { padding: 1.2rem; }
-    .viewer-name { font-weight: 600; font-size: 1rem; margin-bottom: .25rem; }
-    .viewer-meta { display: flex; align-items: center; justify-content: space-between; margin-top: .8rem; }
-    .viewer-price { color: var(--accent); font-weight: 700; font-size: 1.05rem; }
+    .viewer-body { padding: 1.1rem; }
+    .viewer-name { font-weight: 600; font-size: .97rem; }
+    .viewer-meta { display: flex; align-items: center; justify-content: space-between; margin-top: .75rem; }
+    .viewer-price { color: var(--accent); font-weight: 700; }
 
-    /* ─── AI CHAT ─── */
-    #ai-chat {
-      display: none;
-      position: fixed; bottom: 5rem; right: 1.5rem; z-index: 500;
-      width: min(360px, 94vw);
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      box-shadow: 0 20px 60px rgba(0,0,0,.6);
-      overflow: hidden;
-      animation: slideUp .25s ease;
-    }
-    @keyframes slideUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
-    .ai-header {
-      background: linear-gradient(135deg, #1a3d2b, #2d5a3d);
-      padding: 1rem 1.2rem;
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .ai-header-left { display: flex; align-items: center; gap: .7rem; }
-    .ai-avatar {
-      width: 36px; height: 36px; border-radius: 50%;
-      background: var(--accent); display: flex; align-items: center;
-      justify-content: center; font-size: 1rem;
-    }
-    .ai-name { font-weight: 600; font-size: .9rem; }
-    .ai-status { font-size: .7rem; color: #6fcf97; }
-    .ai-close {
-      background: none; border: none; color: var(--muted);
-      cursor: pointer; font-size: 1.1rem; transition: .2s;
-    }
-    .ai-close:hover { color: var(--text); }
-    .ai-messages {
-      height: 240px; overflow-y: auto;
-      padding: 1rem; display: flex; flex-direction: column; gap: .7rem;
-    }
-    .ai-msg {
-      max-width: 85%; padding: .65rem .9rem;
-      border-radius: 10px; font-size: .83rem; line-height: 1.5;
-    }
-    .ai-msg.bot {
-      background: var(--bg3); color: var(--text);
-      border-bottom-left-radius: 2px; align-self: flex-start;
-    }
-    .ai-msg.user {
-      background: var(--accent); color: var(--bg);
-      border-bottom-right-radius: 2px; align-self: flex-end;
-    }
-    .ai-suggestions {
-      padding: .6rem 1rem; display: flex; gap: .5rem; flex-wrap: wrap;
-    }
-    .ai-chip {
-      background: var(--bg3); border: 1px solid var(--border);
-      color: var(--muted); font-size: .72rem; padding: .3rem .7rem;
-      border-radius: 20px; cursor: pointer; transition: .2s;
-    }
-    .ai-chip:hover { border-color: var(--accent); color: var(--accent); }
-    .ai-input-row {
-      padding: .7rem 1rem;
-      border-top: 1px solid var(--border);
-      display: flex; gap: .5rem;
-    }
-    .ai-input {
-      flex: 1; background: var(--bg3); border: 1px solid var(--border);
-      color: var(--text); padding: .5rem .8rem; border-radius: 6px;
-      font-size: .82rem; outline: none;
-      transition: border-color .2s;
-    }
-    .ai-input:focus { border-color: var(--accent); }
-    .ai-send {
-      background: var(--accent); color: var(--bg);
-      border: none; padding: .5rem .9rem;
-      border-radius: 6px; cursor: pointer;
-      font-size: .85rem; font-weight: 600;
-      transition: .2s;
-    }
-    .ai-send:hover { background: var(--accent2); }
-
-    .ai-fab {
-      position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 499;
-      background: linear-gradient(135deg,#1a3d2b,#2d5a3d);
-      border: 1.5px solid var(--accent); color: var(--accent);
-      width: 52px; height: 52px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.3rem; cursor: pointer;
-      box-shadow: 0 4px 20px rgba(201,169,110,.3);
-      transition: transform .2s;
-    }
-    .ai-fab:hover { transform: scale(1.1); }
-
-    /* ─── TESTIMONIALS ─── */
+    /* ── TESTIMONIALS ── */
     .testimonials-section { background: var(--bg); }
-    .testimonials-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px,1fr));
-      gap: 1.5rem;
-    }
-    .testimonial-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 10px; padding: 1.5rem;
-    }
-    .stars { color: var(--accent); font-size: 1rem; margin-bottom: .7rem; }
-    .testimonial-text { font-size: .88rem; color: var(--muted); font-style: italic; margin-bottom: 1rem; }
-    .testimonial-author { display: flex; align-items: center; gap: .7rem; }
-    .author-avatar {
-      width: 38px; height: 38px; border-radius: 50%;
-      background: var(--green); display: flex; align-items: center;
-      justify-content: center; color: var(--accent); font-weight: 700;
-    }
-    .author-name { font-weight: 600; font-size: .88rem; }
-    .author-city { font-size: .74rem; color: var(--muted); }
+    .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(270px,1fr)); gap: 1.5rem; }
+    .testimonial-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 1.4rem; }
+    .stars { color: var(--accent); font-size: 1rem; margin-bottom: .6rem; }
+    .testimonial-text { font-size: .86rem; color: var(--muted); font-style: italic; margin-bottom: .9rem; }
+    .testimonial-author { display: flex; align-items: center; gap: .65rem; }
+    .author-avatar { width:36px; height:36px; border-radius:50%; background:var(--accent); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:.9rem; }
+    .author-name { font-weight: 600; font-size: .86rem; }
+    .author-city { font-size: .72rem; color: var(--muted); }
 
-    /* ─── CONTACT ─── */
+    /* ── CONTACT ── */
     .contact-section { background: var(--bg2); }
     .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
-    .contact-info { display: flex; flex-direction: column; gap: 1.4rem; }
-    .contact-item { display: flex; gap: 1rem; align-items: flex-start; }
-    .contact-icon { font-size: 1.3rem; color: var(--accent); margin-top: .1rem; }
-    .contact-label { font-size: .78rem; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
-    .contact-value { font-size: .95rem; }
-
-    .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+    .contact-info { display: flex; flex-direction: column; gap: 1.3rem; }
+    .contact-item { display: flex; gap: .9rem; align-items: flex-start; }
+    .contact-icon { font-size: 1.2rem; color: var(--accent); margin-top: .1rem; }
+    .contact-label { font-size: .74rem; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+    .contact-value { font-size: .92rem; }
+    .contact-form { display: flex; flex-direction: column; gap: .9rem; }
     .form-input {
-      background: var(--card); border: 1px solid var(--border);
-      color: var(--text); padding: .75rem 1rem;
-      border-radius: 6px; font-size: .9rem; outline: none;
-      transition: border-color .2s;
+      background: #fff; border: 1px solid var(--border);
+      color: var(--text); padding: .7rem .9rem;
+      border-radius: 6px; font-size: .88rem; outline: none; transition: border-color .2s;
     }
     .form-input:focus { border-color: var(--accent); }
-    .form-input::placeholder { color: var(--muted); }
-    textarea.form-input { min-height: 110px; resize: vertical; font-family: inherit; }
-
-    .social-row { display: flex; gap: 1rem; margin-top: 1rem; }
+    .form-input::placeholder { color: #bbb; }
+    textarea.form-input { min-height: 100px; resize: vertical; font-family: inherit; }
+    .social-row { display: flex; gap: .9rem; margin-top: .8rem; flex-wrap: wrap; }
     .social-link {
-      padding: .5rem 1.1rem; border-radius: 4px;
+      padding: .45rem 1rem; border-radius: 4px;
       border: 1px solid var(--border); color: var(--muted);
-      text-decoration: none; font-size: .82rem;
-      transition: .25s;
+      text-decoration: none; font-size: .8rem; transition: .22s;
     }
     .social-link:hover { border-color: var(--accent); color: var(--accent); }
 
-    /* ─── FOOTER ─── */
+    /* ── FOOTER ── */
     footer {
-      background: #080f0a;
-      border-top: 1px solid var(--border);
-      padding: 2rem 5%;
-      display: flex; flex-direction: column; align-items: center;
-      gap: 1rem; text-align: center;
+      background: #faf7f3; border-top: 1px solid var(--border);
+      padding: 2rem 5%; display: flex; flex-direction: column;
+      align-items: center; gap: .9rem; text-align: center;
     }
-    footer .logo-text { font-size: 1.2rem; }
-    footer p { font-size: .78rem; color: var(--muted); }
+    footer p { font-size: .76rem; color: var(--muted); }
 
-    /* ─── MOBILE ─── */
-    @media (max-width: 768px) {
+    /* ── AI CHAT ── */
+    #ai-chat {
+      display: none; position: fixed; bottom: 5.5rem; right: 1.5rem; z-index: 500;
+      width: min(350px,94vw); background: #fff;
+      border: 1px solid var(--border); border-radius: 14px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.18); overflow: hidden;
+      animation: slideUp .22s ease;
+    }
+    @keyframes slideUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+    .ai-header { background: var(--green); padding: .9rem 1.1rem; display: flex; align-items: center; justify-content: space-between; }
+    .ai-header-left { display: flex; align-items: center; gap: .65rem; }
+    .ai-avatar { width:34px; height:34px; border-radius:50%; background:var(--accent); display:flex; align-items:center; justify-content:center; font-size:.95rem; }
+    .ai-name { font-weight:600; font-size:.88rem; color:#fff; }
+    .ai-status { font-size:.68rem; color:#6fcf97; }
+    .ai-close { background:none; border:none; color:rgba(255,255,255,.7); cursor:pointer; font-size:1rem; transition:.2s; }
+    .ai-close:hover { color:#fff; }
+    .ai-messages { height: 220px; overflow-y: auto; padding: .9rem; display: flex; flex-direction: column; gap: .65rem; }
+    .ai-msg { max-width:85%; padding:.6rem .85rem; border-radius:10px; font-size:.82rem; line-height:1.5; }
+    .ai-msg.bot { background:var(--bg2); color:var(--text); border-bottom-left-radius:2px; align-self:flex-start; }
+    .ai-msg.user { background:var(--accent); color:#fff; border-bottom-right-radius:2px; align-self:flex-end; }
+    .ai-chips { padding:.5rem 1rem; display:flex; gap:.4rem; flex-wrap:wrap; border-top:1px solid var(--border); }
+    .ai-chip { background:var(--bg2); border:1px solid var(--border); color:var(--muted); font-size:.7rem; padding:.26rem .65rem; border-radius:20px; cursor:pointer; transition:.2s; }
+    .ai-chip:hover { border-color:var(--accent); color:var(--accent); }
+    .ai-input-row { padding:.65rem 1rem; display:flex; gap:.5rem; border-top:1px solid var(--border); }
+    .ai-input { flex:1; background:var(--bg2); border:1px solid var(--border); color:var(--text); padding:.48rem .75rem; border-radius:6px; font-size:.8rem; outline:none; transition:.2s; }
+    .ai-input:focus { border-color:var(--accent); }
+    .ai-send { background:var(--accent); color:#fff; border:none; padding:.48rem .85rem; border-radius:6px; cursor:pointer; font-size:.82rem; font-weight:600; transition:.2s; }
+    .ai-send:hover { background:var(--accent2); }
+    .ai-fab {
+      position:fixed; bottom:1.5rem; right:1.5rem; z-index:499;
+      background:var(--green); color:#fff;
+      width:50px; height:50px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      font-size:1.25rem; cursor:pointer; border:none;
+      box-shadow:0 4px 18px rgba(45,90,61,.4); transition:transform .2s;
+    }
+    .ai-fab:hover { transform:scale(1.1); }
+
+    /* ── MOBILE ── */
+    @media (max-width: 820px) {
       nav { display: none; }
       .burger { display: flex; }
       nav.open {
-        display: flex; flex-direction: column;
-        position: absolute; top: 72px; left: 0; right: 0;
-        background: rgba(14,26,20,.98); padding: 1.5rem 5%;
-        border-bottom: 1px solid var(--border);
+        display: flex; flex-direction: column; position: absolute;
+        top: 72px; left: 0; right: 0;
+        background: rgba(255,255,255,.98); padding: 1.2rem 5%;
+        border-bottom: 1px solid var(--border); z-index: 299;
       }
+      .lang-switcher { gap: .25rem; }
+      .lang-btn { padding: .2rem .35rem; font-size: .75rem; }
       .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
     }
   </style>
 </head>
 <body>
 
-<!-- ─── HEADER ─── -->
-<header id="site-header">
+<!-- ── HEADER ── -->
+<header>
   <a href="#" class="logo">
-    <img src="./felice-logo.jpg" alt="Felice Logo">
+    <img src="https://i.ibb.co/RpwLTkMT/felice-logo-github-1.jpg" alt="Felice">
     <div>
-      <div class="logo-text">Felice</div>
-      <div class="logo-sub">ავეჯის სახლი</div>
+      <div class="logo-text">FELICE</div>
+      <div class="logo-sub" data-i18n="tagline">ავეჯის სახლი</div>
     </div>
   </a>
+
   <nav id="main-nav">
-    <a href="#catalog">კატალოგი</a>
-    <a href="#arrivals">ახალი</a>
-    <a href="#about">ჩვენ შესახებ</a>
-    <a href="#contact">კონტაქტი</a>
-    <a href="#contact" class="nav-cta">შეკვეთა</a>
+    <a href="#catalog" data-i18n="nav_catalog">კატალოგი</a>
+    <a href="#arrivals" data-i18n="nav_arrivals">ახალი</a>
+    <a href="#about" data-i18n="nav_about">ჩვენ შესახებ</a>
+    <a href="#contact" data-i18n="nav_contact">კონტაქტი</a>
+    <a href="#contact" class="nav-cta" data-i18n="nav_order">შეკვეთა</a>
   </nav>
-  <button class="burger" id="burger-btn" aria-label="მენიუ">
-    <span></span><span></span><span></span>
-  </button>
+
+  <div style="display:flex;align-items:center;gap:.7rem">
+    <div class="lang-switcher">
+      <button class="lang-btn active" onclick="setLang('ka')">🇬🇪 ქარ</button>
+      <button class="lang-btn" onclick="setLang('en')">🇬🇧 ENG</button>
+      <button class="lang-btn" onclick="setLang('ru')">🇷🇺 РУС</button>
+      <button class="lang-btn" onclick="setLang('tr')">🇹🇷 TUR</button>
+    </div>
+    <button class="burger" id="burger-btn"><span></span><span></span><span></span></button>
+  </div>
 </header>
 
-<!-- ─── HERO ─── -->
-<section class="hero" id="hero">
+<!-- ── HERO ── -->
+<section class="hero">
   <div class="hero-bg"></div>
   <div class="hero-content">
-    <span class="hero-badge">✦ პრემიუმ ავეჯი საქართველოში</span>
-    <h1>პრემიუმ ავეჯი <span>თქვენი</span> სახლისთვის</h1>
-    <p>იტალიური და თურქული ხარისხი · ექსკლუზიური დიზაინი · კომფორტი ყოველ დეტალში</p>
+    <span class="hero-badge" data-i18n="hero_badge">✦ პრემიუმ ავეჯი საქართველოში</span>
+    <h1><span data-i18n="hero_h1a">პრემიუმ ავეჯი</span> <span style="color:var(--accent)" data-i18n="hero_h1b">თქვენი სახლისთვის</span></h1>
+    <p data-i18n="hero_sub">იტალიური და თურქული ხარისხი · ექსკლუზიური დიზაინი · კომფორტი ყოველ დეტალში</p>
     <div class="hero-btns">
-      <a href="#catalog" class="btn btn-primary">📦 კატალოგის ნახვა</a>
-      <button class="btn btn-ai" onclick="toggleAI()">🤖 AI კონსულტანტი</button>
-      <a href="#contact" class="btn btn-outline">📞 დაგვიკავშირდი</a>
+      <a href="#catalog" class="btn btn-primary" data-i18n="hero_btn1">📦 კატალოგის ნახვა</a>
+      <button class="btn btn-ai" onclick="toggleAI()" data-i18n="hero_btn_ai">🤖 AI კონსულტანტი</button>
+      <a href="#contact" class="btn btn-outline" data-i18n="hero_btn2">📞 დაგვიკავშირდი</a>
     </div>
   </div>
   <div class="scroll-hint">SCROLL</div>
 </section>
 
-<!-- ─── FEATURES BAR ─── -->
+<!-- ── FEATURES BAR ── -->
 <div class="features-bar">
   <div class="features-grid">
-    <div class="feature-item">
-      <div class="feature-icon">🚚</div>
-      <div class="feature-title">უფასო მიწოდება</div>
-      <div class="feature-desc">თბილისში 300₾-ზე მეტ შეკვეთაზე</div>
-    </div>
-    <div class="feature-item">
-      <div class="feature-icon">🏆</div>
-      <div class="feature-title">პრემიუმ ხარისხი</div>
-      <div class="feature-desc">იტალიური და თურქული ბრენდები</div>
-    </div>
-    <div class="feature-item">
-      <div class="feature-icon">🔄</div>
-      <div class="feature-title">14 დღიანი დაბრუნება</div>
-      <div class="feature-desc">ხარისხით უკმაყოფილოთათვის</div>
-    </div>
-    <div class="feature-item">
-      <div class="feature-icon">💬</div>
-      <div class="feature-title">24/7 მხარდაჭერა</div>
-      <div class="feature-desc">WhatsApp-ით ნებისმიერ დროს</div>
-    </div>
+    <div class="feature-item"><div class="feature-icon">🚚</div><div class="feature-title" data-i18n="feat1_t">უფასო მიწოდება</div><div class="feature-desc" data-i18n="feat1_d">300₾-ზე მეტ შეკვეთაზე</div></div>
+    <div class="feature-item"><div class="feature-icon">🏆</div><div class="feature-title" data-i18n="feat2_t">პრემიუმ ხარისხი</div><div class="feature-desc" data-i18n="feat2_d">იტალიური და თურქული ბრენდები</div></div>
+    <div class="feature-item"><div class="feature-icon">🔄</div><div class="feature-title" data-i18n="feat3_t">14 დღიანი დაბრუნება</div><div class="feature-desc" data-i18n="feat3_d">ხარისხით უკმაყოფილოთათვის</div></div>
+    <div class="feature-item"><div class="feature-icon">💬</div><div class="feature-title" data-i18n="feat4_t">24/7 მხარდაჭერა</div><div class="feature-desc" data-i18n="feat4_d">WhatsApp-ით ნებისმიერ დროს</div></div>
   </div>
 </div>
 
-<!-- ─── CATALOG ─── -->
+<!-- ── CATALOG ── -->
 <section id="catalog" class="products-section">
-  <div class="section-label">კატალოგი</div>
-  <h2 class="section-title">პოპულარული პროდუქტები</h2>
-  <p class="section-sub">შეარჩიეთ თქვენი სტილის შესაფერისი ავეჯი ჩვენი ფართო კოლექციიდან</p>
-
+  <div class="section-label" data-i18n="cat_label">კატალოგი</div>
+  <h2 class="section-title" data-i18n="cat_title">პოპულარული პროდუქტები</h2>
+  <p class="section-sub" data-i18n="cat_sub">შეარჩიეთ თქვენი სტილის შესაფერისი ავეჯი</p>
   <div class="products-grid">
-    <!-- Card 1 -->
+
     <div class="product-card">
       <div class="product-img">
-        <img src="https://via.placeholder.com/400x300/1a2820/c9a96e?text=Luxury+Sofa" alt="სამი ადგილიანი დივანი">
-        <span class="product-badge">ბესტსელერი</span>
+        <img src="https://i.ibb.co/d4gCxS2H/FB-IMG-1785274708860.jpg" alt="">
+        <span class="product-badge" data-i18n="badge_best">ბესტსელერი</span>
       </div>
       <div class="product-body">
-        <div class="product-name">ლუქს ველვეტ დივანი</div>
-        <div class="product-desc">ბუხარი-ველვეტის შემოფარგლული 3-ადგილიანი დივანი ოქროს ფეხებით</div>
-        <div class="product-footer">
-          <span class="product-price">2,490 ₾</span>
-          <button class="add-btn">კალათაში +</button>
-        </div>
+        <div class="product-name" data-i18n="p1_name">ლუქს ველვეტ დივანი</div>
+        <div class="product-desc" data-i18n="p1_desc">ბუხარი-ველვეტი, 3-ადგილიანი, ოქროს ფეხები</div>
+        <div class="product-footer"><span class="product-price">2,490 ₾</span><button class="add-btn" data-i18n="btn_cart">კალათაში +</button></div>
       </div>
     </div>
 
-    <!-- Card 2 -->
     <div class="product-card">
       <div class="product-img">
-        <img src="https://via.placeholder.com/400x300/1a2820/c9a96e?text=Dining+Table" alt="სასადილო მაგიდა">
-        <span class="product-badge">ახალი</span>
+        <img src="https://i.ibb.co/FbVq8bcF/FB-IMG-1785274378648.jpg" alt="">
+        <span class="product-badge" data-i18n="badge_new">ახალი</span>
       </div>
       <div class="product-body">
-        <div class="product-name">ოკი სასადილო კომპლექტი</div>
-        <div class="product-desc">მასიური მუხის მაგიდა 6 სკამით, იტალიური დიზაინი</div>
-        <div class="product-footer">
-          <span class="product-price">3,850 ₾</span>
-          <button class="add-btn">კალათაში +</button>
-        </div>
+        <div class="product-name" data-i18n="p2_name">ოკი სასადილო კომპლექტი</div>
+        <div class="product-desc" data-i18n="p2_desc">მუხის მაგიდა 6 სკამით, იტალიური დიზაინი</div>
+        <div class="product-footer"><span class="product-price">3,850 ₾</span><button class="add-btn" data-i18n="btn_cart">კალათაში +</button></div>
       </div>
     </div>
 
-    <!-- Card 3 -->
     <div class="product-card">
       <div class="product-img">
-        <img src="https://via.placeholder.com/400x300/1a2820/c9a96e?text=King+Bed" alt="საძინებელი კომპლექტი">
+        <img src="https://i.ibb.co/7NSFzb61/FB-IMG-1785274371676.jpg" alt="">
       </div>
       <div class="product-body">
-        <div class="product-name">King Size საძინებელი</div>
-        <div class="product-desc">180×200 ლეჟანდი, ორი გვერდითი მაგიდა, ბუფეტ-სარკე</div>
-        <div class="product-footer">
-          <span class="product-price">4,200 ₾</span>
-          <button class="add-btn">კალათაში +</button>
-        </div>
+        <div class="product-name" data-i18n="p3_name">King Size საძინებელი</div>
+        <div class="product-desc" data-i18n="p3_desc">180×200 ლეჟანდი, გვერდითი მაგიდები, ბუფეტ-სარკე</div>
+        <div class="product-footer"><span class="product-price">4,200 ₾</span><button class="add-btn" data-i18n="btn_cart">კალათაში +</button></div>
       </div>
     </div>
 
-    <!-- Card 4 -->
     <div class="product-card">
       <div class="product-img">
-        <img src="https://via.placeholder.com/400x300/1a2820/c9a96e?text=TV+Unit" alt="TV მოდული">
+        <img src="https://i.ibb.co/XBF3yGR/FB-IMG-1785274359947.jpg" alt="">
         <span class="product-badge">-15%</span>
       </div>
       <div class="product-body">
-        <div class="product-name">მოდერნ TV მოდული</div>
-        <div class="product-desc">200 სმ. მოდერნ სტილის ტელევიზორის კარადა LED განათებით</div>
-        <div class="product-footer">
-          <span class="product-price">1,190 ₾</span>
-          <button class="add-btn">კალათაში +</button>
-        </div>
+        <div class="product-name" data-i18n="p4_name">მოდერნ TV მოდული</div>
+        <div class="product-desc" data-i18n="p4_desc">200 სმ. LED განათებით, მოდერნ სტილი</div>
+        <div class="product-footer"><span class="product-price">1,190 ₾</span><button class="add-btn" data-i18n="btn_cart">კალათაში +</button></div>
       </div>
     </div>
+
   </div>
 </section>
 
-<!-- ─── 360° ARRIVALS ─── -->
+<!-- ── 360° ARRIVALS ── -->
 <section id="arrivals" class="arrivals-section">
-  <div class="section-label">ახალი ჩამოსვლა</div>
-  <h2 class="section-title">360° ხედი</h2>
-  <p class="section-sub">გადაათრიეთ სურათი მაუსით ან თითით — ნახეთ პროდუქტი ყოველი კუთხიდან</p>
-
+  <div class="section-label" data-i18n="arr_label">ახალი ჩამოსვლა</div>
+  <h2 class="section-title" data-i18n="arr_title">360° ხედი</h2>
+  <p class="section-sub" data-i18n="arr_sub">გადაათრიეთ სურათი — ნახეთ ყოველი კუთხიდან</p>
   <div class="arrivals-grid">
 
-    <!-- Boucle Chair — sprite sheet viewer -->
+    <!-- Boucle — sprite sheet -->
     <div class="viewer-card">
       <div class="viewer-stage sprite" id="stage-boucle"
-           data-type="sprite"
-           data-frames="12" data-cols="4" data-rows="3"
-           data-src="./boucle-360.png">
+           data-type="sprite" data-frames="12" data-cols="4" data-rows="3"
+           data-src="https://i.ibb.co/DgjkcJLW/10e06f97c-1de2-4a6a-b6cb-b61d4b5ec658.png">
         <div class="viewer-sprite" id="sprite-boucle"></div>
         <span class="viewer-badge-360">360°</span>
-        <div class="viewer-hint">↔ გადაათრიეთ</div>
+        <div class="viewer-hint" data-i18n="drag_hint">↔ გადაათრიეთ</div>
       </div>
       <div class="viewer-body">
-        <div class="viewer-name">Boucle სავარძელი</div>
-        <p style="font-size:.8rem;color:var(--muted);margin-top:.25rem">ბუკლე ქსოვილი · ხის ბაზა · კომფორტული</p>
-        <div class="viewer-meta">
-          <span class="viewer-price">1,850 ₾</span>
-          <button class="add-btn">კალათაში +</button>
-        </div>
+        <div class="viewer-name" data-i18n="v1_name">Boucle სავარძელი</div>
+        <p style="font-size:.78rem;color:var(--muted);margin-top:.2rem" data-i18n="v1_desc">ბუკლე ქსოვილი · ხის ბაზა</p>
+        <div class="viewer-meta"><span class="viewer-price">1,850 ₾</span><button class="add-btn" data-i18n="btn_cart">კალათაში +</button></div>
       </div>
     </div>
 
     <!-- Accent Chair -->
     <div class="viewer-card">
-      <div class="viewer-stage" id="stage-accent" data-type="rotate">
-        <img src="https://via.placeholder.com/400x400/1a2820/c9a96e?text=Accent+Chair" alt="Accent Chair" id="img-accent">
+      <div class="viewer-stage" data-type="rotate">
+        <img src="https://i.ibb.co/VWds2St1/FB-IMG-1785274354614.jpg" alt="Accent Chair">
         <span class="viewer-badge-360">360°</span>
-        <div class="viewer-hint">↔ გადაათრიეთ</div>
+        <div class="viewer-hint" data-i18n="drag_hint">↔ გადაათრიეთ</div>
       </div>
       <div class="viewer-body">
-        <div class="viewer-name">Accent სავარძელი</div>
-        <p style="font-size:.8rem;color:var(--muted);margin-top:.25rem">ველვეტი · ოქროს ფეხები · ელეგანტური</p>
-        <div class="viewer-meta">
-          <span class="viewer-price">1,290 ₾</span>
-          <button class="add-btn">კალათაში +</button>
-        </div>
+        <div class="viewer-name" data-i18n="v2_name">Accent სავარძელი</div>
+        <p style="font-size:.78rem;color:var(--muted);margin-top:.2rem" data-i18n="v2_desc">ველვეტი · ოქროს ფეხები</p>
+        <div class="viewer-meta"><span class="viewer-price">1,290 ₾</span><button class="add-btn" data-i18n="btn_cart">კალათაში +</button></div>
       </div>
     </div>
 
     <!-- Art Print Sofa -->
     <div class="viewer-card">
-      <div class="viewer-stage" id="stage-artsofa" data-type="rotate">
-        <img src="https://via.placeholder.com/400x400/1a2820/c9a96e?text=Art+Print+Sofa" alt="Art Print Sofa" id="img-artsofa">
+      <div class="viewer-stage" data-type="rotate">
+        <img src="https://i.ibb.co/G3bPWDD5/FB-IMG-1785274348291.jpg" alt="Art Sofa">
         <span class="viewer-badge-360">360°</span>
-        <div class="viewer-hint">↔ გადაათრიეთ</div>
+        <div class="viewer-hint" data-i18n="drag_hint">↔ გადაათრიეთ</div>
       </div>
       <div class="viewer-body">
-        <div class="viewer-name">Art Print დივანი</div>
-        <p style="font-size:.8rem;color:var(--muted);margin-top:.25rem">ბოტანიკური ბეჭდვა · 2-ადგილიანი · მოდერნი</p>
-        <div class="viewer-meta">
-          <span class="viewer-price">2,150 ₾</span>
-          <button class="add-btn">კალათაში +</button>
-        </div>
+        <div class="viewer-name" data-i18n="v3_name">Art Print დივანი</div>
+        <p style="font-size:.78rem;color:var(--muted);margin-top:.2rem" data-i18n="v3_desc">2-ადგილიანი · ბოტანიკური ბეჭდვა</p>
+        <div class="viewer-meta"><span class="viewer-price">2,150 ₾</span><button class="add-btn" data-i18n="btn_cart">კალათაში +</button></div>
       </div>
     </div>
 
     <!-- Rope Chair -->
     <div class="viewer-card">
-      <div class="viewer-stage" id="stage-rope" data-type="rotate">
-        <img src="https://via.placeholder.com/400x400/1a2820/c9a96e?text=Rope+Chair" alt="Rope Chair" id="img-rope">
+      <div class="viewer-stage" data-type="rotate">
+        <img src="https://i.ibb.co/VWFdCysr/FB-IMG-1785226527428.jpg" alt="Rope Chair">
         <span class="viewer-badge-360">360°</span>
-        <div class="viewer-hint">↔ გადაათრიეთ</div>
+        <div class="viewer-hint" data-i18n="drag_hint">↔ გადაათრიეთ</div>
       </div>
       <div class="viewer-body">
-        <div class="viewer-name">Rope სავარძელი</div>
-        <p style="font-size:.8rem;color:var(--muted);margin-top:.25rem">ბუნებრივი თოკი · ლითონის კარკასი · გარე/შიდა</p>
-        <div class="viewer-meta">
-          <span class="viewer-price">980 ₾</span>
-          <button class="add-btn">კალათაში +</button>
-        </div>
+        <div class="viewer-name" data-i18n="v4_name">Rope სავარძელი</div>
+        <p style="font-size:.78rem;color:var(--muted);margin-top:.2rem" data-i18n="v4_desc">ბუნებრივი თოკი · ლითონის კარკასი</p>
+        <div class="viewer-meta"><span class="viewer-price">980 ₾</span><button class="add-btn" data-i18n="btn_cart">კალათაში +</button></div>
       </div>
     </div>
 
   </div>
 </section>
 
-<!-- ─── TESTIMONIALS ─── -->
-<section id="about" class="testimonials-section">
-  <div class="section-label">შეფასებები</div>
-  <h2 class="section-title">ჩვენი მომხმარებლები</h2>
-  <p class="section-sub">500+ კმაყოფილი ოჯახი საქართველოში</p>
+<!-- ── GALLERY ── -->
+<section id="about" style="background:var(--bg);padding:4rem 5%">
+  <div class="section-label" data-i18n="gal_label">გალერეა</div>
+  <h2 class="section-title" data-i18n="gal_title">ჩვენი კოლექცია</h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;margin-top:1.5rem">
+    <img src="https://i.ibb.co/tPLVpFdf/FB-IMG-1785226514105.jpg" style="width:100%;height:180px;object-fit:cover;border-radius:8px;border:1px solid var(--border)" alt="">
+    <img src="https://i.ibb.co/zHQB9TVJ/FB-IMG-1785226509385.jpg"  style="width:100%;height:180px;object-fit:cover;border-radius:8px;border:1px solid var(--border)" alt="">
+    <img src="https://i.ibb.co/2LpLsby/FB-IMG-1785226504356.jpg"  style="width:100%;height:180px;object-fit:cover;border-radius:8px;border:1px solid var(--border)" alt="">
+    <img src="https://i.ibb.co/d4gCxS2H/FB-IMG-1785274708860.jpg"  style="width:100%;height:180px;object-fit:cover;border-radius:8px;border:1px solid var(--border)" alt="">
+  </div>
+</section>
 
+<!-- ── TESTIMONIALS ── -->
+<section class="testimonials-section">
+  <div class="section-label" data-i18n="rev_label">შეფასებები</div>
+  <h2 class="section-title" data-i18n="rev_title">ჩვენი მომხმარებლები</h2>
+  <p class="section-sub" data-i18n="rev_sub">500+ კმაყოფილი ოჯახი საქართველოში</p>
   <div class="testimonials-grid">
-    <div class="testimonial-card">
-      <div class="stars">★★★★★</div>
-      <p class="testimonial-text">"ბუხლე სავარძელი ზუსტად ისეთია როგორიც ფოტოში — ხარისხი განსაკუთრებული. მიწოდება 2 დღეში!"</p>
-      <div class="testimonial-author">
-        <div class="author-avatar">ნ</div>
-        <div><div class="author-name">ნინო ბერიძე</div><div class="author-city">თბილისი, ვაკე</div></div>
-      </div>
-    </div>
-    <div class="testimonial-card">
-      <div class="stars">★★★★★</div>
-      <p class="testimonial-text">"სასადილო კომპლექტი სრულყოფილია. ფასი-ხარისხის თანაფარდობა საუკეთესო. ყველას ვურჩევ!"</p>
-      <div class="testimonial-author">
-        <div class="author-avatar">გ</div>
-        <div><div class="author-name">გიორგი კვარაცხელია</div><div class="author-city">თბილისი, ისანი</div></div>
-      </div>
-    </div>
-    <div class="testimonial-card">
-      <div class="stars">★★★★☆</div>
-      <p class="testimonial-text">"AI კონსულტანტი ძალიან დამეხმარა სტილის შერჩევაში. სახლი სრულად გარდაიქმნა!"</p>
-      <div class="testimonial-author">
-        <div class="author-avatar">მ</div>
-        <div><div class="author-name">მარიამ ჯიქია</div><div class="author-city">ბათუმი</div></div>
-      </div>
-    </div>
+    <div class="testimonial-card"><div class="stars">★★★★★</div><p class="testimonial-text" data-i18n="r1">"ბუხლე სავარძელი ზუსტად ისეთია, როგორიც ფოტოში. ხარისხი განსაკუთრებული, მიწოდება 2 დღეში!"</p><div class="testimonial-author"><div class="author-avatar">ნ</div><div><div class="author-name">ნინო ბერიძე</div><div class="author-city">თბილისი, ვაკე</div></div></div></div>
+    <div class="testimonial-card"><div class="stars">★★★★★</div><p class="testimonial-text" data-i18n="r2">"სასადილო კომპლექტი სრულყოფილია. ფასი-ხარისხის თანაფარდობა საუკეთესო!"</p><div class="testimonial-author"><div class="author-avatar">გ</div><div><div class="author-name">გიორგი კვარაცხელია</div><div class="author-city">თბილისი, ისანი</div></div></div></div>
+    <div class="testimonial-card"><div class="stars">★★★★☆</div><p class="testimonial-text" data-i18n="r3">"AI კონსულტანტი ძალიან დამეხმარა სტილის შერჩევაში. სახლი სრულად გარდაიქმნა!"</p><div class="testimonial-author"><div class="author-avatar">მ</div><div><div class="author-name">მარიამ ჯიქია</div><div class="author-city">ბათუმი</div></div></div></div>
   </div>
 </section>
 
-<!-- ─── CONTACT ─── -->
+<!-- ── CONTACT ── -->
 <section id="contact" class="contact-section">
-  <div class="section-label">კონტაქტი</div>
-  <h2 class="section-title">დაგვიკავშირდით</h2>
-
+  <div class="section-label" data-i18n="con_label">კონტაქტი</div>
+  <h2 class="section-title" data-i18n="con_title">დაგვიკავშირდით</h2>
   <div class="contact-grid">
     <div class="contact-info">
-      <div class="contact-item">
-        <span class="contact-icon">📍</span>
-        <div>
-          <div class="contact-label">მისამართი</div>
-          <div class="contact-value">თბილისი, საქართველო</div>
-        </div>
-      </div>
-      <div class="contact-item">
-        <span class="contact-icon">📱</span>
-        <div>
-          <div class="contact-label">ტელეფონი / WhatsApp</div>
-          <div class="contact-value"><a href="https://wa.me/995505052706" style="color:var(--accent);text-decoration:none">+995 505 052 706</a></div>
-        </div>
-      </div>
-      <div class="contact-item">
-        <span class="contact-icon">✉️</span>
-        <div>
-          <div class="contact-label">ელ. ფოსტა</div>
-          <div class="contact-value">felicesofi92@gmail.com</div>
-        </div>
-      </div>
-      <div class="contact-item">
-        <span class="contact-icon">🕐</span>
-        <div>
-          <div class="contact-label">სამუშაო საათები</div>
-          <div class="contact-value">ყოველდღე 10:00 – 20:00</div>
-        </div>
-      </div>
+      <div class="contact-item"><span class="contact-icon">📍</span><div><div class="contact-label" data-i18n="c_addr_l">მისამართი</div><div class="contact-value" data-i18n="c_addr_v">თბილისი, საქართველო</div></div></div>
+      <div class="contact-item"><span class="contact-icon">📱</span><div><div class="contact-label" data-i18n="c_phone_l">ტელეფონი / WhatsApp</div><div class="contact-value"><a href="https://wa.me/995505052706" style="color:var(--accent);text-decoration:none">+995 505 052 706</a></div></div></div>
+      <div class="contact-item"><span class="contact-icon">✉️</span><div><div class="contact-label" data-i18n="c_email_l">ელ. ფოსტა</div><div class="contact-value">felicesofi92@gmail.com</div></div></div>
+      <div class="contact-item"><span class="contact-icon">🕐</span><div><div class="contact-label" data-i18n="c_hours_l">სამუშაო საათები</div><div class="contact-value" data-i18n="c_hours_v">ყოველდღე 10:00 – 20:00</div></div></div>
       <div class="social-row">
         <a href="https://facebook.com/feliche.furniturestore" target="_blank" class="social-link">Facebook</a>
         <a href="https://instagram.com/felice.furnitureshop" target="_blank" class="social-link">Instagram</a>
         <a href="https://wa.me/995505052706" target="_blank" class="social-link">WhatsApp</a>
       </div>
     </div>
-
     <form class="contact-form" onsubmit="sendForm(event)">
-      <input class="form-input" type="text" placeholder="სახელი" required>
-      <input class="form-input" type="tel" placeholder="ტელეფონი">
-      <input class="form-input" type="email" placeholder="ელ. ფოსტა">
-      <textarea class="form-input" placeholder="შეტყობინება — რა გაინტერესებთ?"></textarea>
-      <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center">გაგზავნა ✉️</button>
+      <input class="form-input" type="text"  data-i18n-ph="f_name"  placeholder="სახელი" required>
+      <input class="form-input" type="tel"   data-i18n-ph="f_phone" placeholder="ტელეფონი">
+      <input class="form-input" type="email" data-i18n-ph="f_email" placeholder="ელ. ფოსტა">
+      <textarea class="form-input"           data-i18n-ph="f_msg"   placeholder="შეტყობინება..."></textarea>
+      <button type="submit" class="btn btn-primary" style="justify-content:center" data-i18n="f_send">გაგზავნა ✉️</button>
     </form>
   </div>
 </section>
 
-<!-- ─── FOOTER ─── -->
+<!-- ── FOOTER ── -->
 <footer>
-  <a href="#" class="logo" style="text-decoration:none">
-    <img src="./felice-logo.jpg" alt="Felice" style="height:36px;width:36px;border-radius:50%;border:1px solid var(--accent)">
+  <a href="#" class="logo">
+    <img src="https://i.ibb.co/RpwLTkMT/felice-logo-github-1.jpg" alt="Felice" style="height:38px;width:38px;border-radius:50%;border:1.5px solid var(--accent)">
     <div class="logo-text" style="font-size:1.1rem">FELICE</div>
   </a>
-  <p>© 2026 Felice — ავეჯის სახლი. ყველა უფლება დაცულია.</p>
+  <p data-i18n="footer_copy">© 2026 Felice — ავეჯის სახლი. ყველა უფლება დაცულია.</p>
 </footer>
 
-<!-- ─── AI CHAT WIDGET ─── -->
-<div id="ai-chat">
+<!-- ── AI CHAT WIDGET ── -->
+<div id="ai-chat" style="flex-direction:column">
   <div class="ai-header">
     <div class="ai-header-left">
       <div class="ai-avatar">🤖</div>
-      <div>
-        <div class="ai-name">Felice AI კონსულტანტი</div>
-        <div class="ai-status">● ონლაინ</div>
-      </div>
+      <div><div class="ai-name" data-i18n="ai_name">Felice AI კონსულტანტი</div><div class="ai-status">● Online</div></div>
     </div>
     <button class="ai-close" onclick="toggleAI()">✕</button>
   </div>
   <div class="ai-messages" id="ai-messages">
-    <div class="ai-msg bot">გამარჯობა! 👋 მე ვარ Felice-ის AI კონსულტანტი. როგორ დაგეხმარო?</div>
+    <div class="ai-msg bot" id="ai-greeting">გამარჯობა! 👋 როგორ დაგეხმარო?</div>
   </div>
-  <div class="ai-suggestions">
-    <button class="ai-chip" onclick="askAI('სავარძელი მჭირდება')">სავარძელი</button>
-    <button class="ai-chip" onclick="askAI('ფასები')">ფასები</button>
-    <button class="ai-chip" onclick="askAI('მიწოდება')">მიწოდება</button>
-    <button class="ai-chip" onclick="askAI('360° ხედი')">360° ხედი</button>
+  <div class="ai-chips">
+    <button class="ai-chip" onclick="askAI('sofa')" data-i18n="chip1">დივანი</button>
+    <button class="ai-chip" onclick="askAI('price')" data-i18n="chip2">ფასები</button>
+    <button class="ai-chip" onclick="askAI('delivery')" data-i18n="chip3">მიწოდება</button>
+    <button class="ai-chip" onclick="askAI('360')" data-i18n="chip4">360° ხედი</button>
   </div>
   <div class="ai-input-row">
-    <input class="ai-input" id="ai-input-field" type="text" placeholder="კითხვა..." onkeydown="if(event.key==='Enter')sendAI()">
+    <input class="ai-input" id="ai-input-field" type="text" data-i18n-ph="ai_ph" placeholder="კითხვა..." onkeydown="if(event.key==='Enter')sendAI()">
     <button class="ai-send" onclick="sendAI()">➤</button>
   </div>
 </div>
-<button class="ai-fab" onclick="toggleAI()" title="AI კონსულტანტი">🤖</button>
+<button class="ai-fab" onclick="toggleAI()">🤖</button>
 
-<!-- ─── JAVASCRIPT ─── -->
+<!-- ══ JAVASCRIPT ══ -->
 <script>
-/* ── Burger menu ── */
+/* ── Translations ── */
+const T = {
+  ka:{
+    tagline:'ავეჯის სახლი', nav_catalog:'კატალოგი', nav_arrivals:'ახალი',
+    nav_about:'ჩვენ შესახებ', nav_contact:'კონტაქტი', nav_order:'შეკვეთა',
+    hero_badge:'✦ პრემიუმ ავეჯი საქართველოში',
+    hero_h1a:'პრემიუმ ავეჯი', hero_h1b:'თქვენი სახლისთვის',
+    hero_sub:'იტალიური და თურქული ხარისხი · ექსკლუზიური დიზაინი · კომფორტი ყოველ დეტალში',
+    hero_btn1:'📦 კატალოგის ნახვა', hero_btn_ai:'🤖 AI კონსულტანტი', hero_btn2:'📞 დაგვიკავშირდი',
+    feat1_t:'უფასო მიწოდება', feat1_d:'300₾-ზე მეტ შეკვეთაზე',
+    feat2_t:'პრემიუმ ხარისხი', feat2_d:'იტალიური და თურქული ბრენდები',
+    feat3_t:'14 დღიანი დაბრუნება', feat3_d:'ხარისხით უკმაყოფილოთათვის',
+    feat4_t:'24/7 მხარდაჭერა', feat4_d:'WhatsApp-ით ნებისმიერ დროს',
+    cat_label:'კატალოგი', cat_title:'პოპულარული პროდუქტები', cat_sub:'შეარჩიეთ თქვენი სტილის შესაფერისი ავეჯი',
+    badge_best:'ბესტსელერი', badge_new:'ახალი', btn_cart:'კალათაში +',
+    p1_name:'ლუქს ველვეტ დივანი', p1_desc:'ბუხარი-ველვეტი, 3-ადგილიანი, ოქროს ფეხები',
+    p2_name:'ოკი სასადილო კომპლექტი', p2_desc:'მუხის მაგიდა 6 სკამით, იტალიური დიზაინი',
+    p3_name:'King Size საძინებელი', p3_desc:'180×200 ლეჟანდი, გვერდითი მაგიდები, ბუფეტ-სარკე',
+    p4_name:'მოდერნ TV მოდული', p4_desc:'200 სმ. LED განათებით, მოდერნ სტილი',
+    arr_label:'ახალი ჩამოსვლა', arr_title:'360° ხედი', arr_sub:'გადაათრიეთ სურათი — ნახეთ ყოველი კუთხიდან',
+    drag_hint:'↔ გადაათრიეთ',
+    v1_name:'Boucle სავარძელი', v1_desc:'ბუკლე ქსოვილი · ხის ბაზა',
+    v2_name:'Accent სავარძელი', v2_desc:'ველვეტი · ოქროს ფეხები',
+    v3_name:'Art Print დივანი', v3_desc:'2-ადგილიანი · ბოტანიკური ბეჭდვა',
+    v4_name:'Rope სავარძელი', v4_desc:'ბუნებრივი თოკი · ლითონის კარკასი',
+    gal_label:'გალერეა', gal_title:'ჩვენი კოლექცია',
+    rev_label:'შეფასებები', rev_title:'ჩვენი მომხმარებლები', rev_sub:'500+ კმაყოფილი ოჯახი საქართველოში',
+    r1:'"ბუხლე სავარძელი ზუსტად ისეთია, როგორიც ფოტოში. ხარისხი განსაკუთრებული!"',
+    r2:'"სასადილო კომპლექტი სრულყოფილია. ფასი-ხარისხის თანაფარდობა საუკეთესო!"',
+    r3:'"AI კონსულტანტი ძალიან დამეხმარა სტილის შერჩევაში. სახლი გარდაიქმნა!"',
+    con_label:'კონტაქტი', con_title:'დაგვიკავშირდით',
+    c_addr_l:'მისამართი', c_addr_v:'თბილისი, საქართველო',
+    c_phone_l:'ტელეფონი / WhatsApp', c_email_l:'ელ. ფოსტა',
+    c_hours_l:'სამუშაო საათები', c_hours_v:'ყოველდღე 10:00 – 20:00',
+    f_name:'სახელი', f_phone:'ტელეფონი', f_email:'ელ. ფოსტა', f_msg:'შეტყობინება...',
+    f_send:'გაგზავნა ✉️', footer_copy:'© 2026 Felice — ავეჯის სახლი. ყველა უფლება დაცულია.',
+    ai_name:'Felice AI კონსულტანტი', ai_ph:'კითხვა...',
+    chip1:'დივანი', chip2:'ფასები', chip3:'მიწოდება', chip4:'360° ხედი',
+    ai_greet:'გამარჯობა! 👋 მე ვარ Felice AI კონსულტანტი. როგორ დაგეხმარო?',
+    ai_sofa:'გვაქვს ლუქს ველვეტი 2490₾ და Art Print 2150₾. 360° viewer-ში ნახეთ! 🛋️',
+    ai_price:'ფასები: სავარძლები 980–1850₾, დივნები 2150–2490₾, საძინებელი 4200₾ 💰',
+    ai_delivery:'თბილისში 300₾+ შეკვეთა — მიწოდება უფასო! 1-3 სამუშაო დღეში 🚚',
+    ai_360:'სექციაში "ახალი ჩამოსვლა" გადაათრიეთ სურათი ნებისმიერი კუთხის სანახავად! 🔄',
+    ai_default:'დეტალური ინფოსთვის: WhatsApp +995 505 052 706 📞',
+    form_ok:'✅ შეტყობინება გაიგზავნა! მალე დაგიკავშირდებით.'
+  },
+  en:{
+    tagline:'Furniture House', nav_catalog:'Catalog', nav_arrivals:'New',
+    nav_about:'About Us', nav_contact:'Contact', nav_order:'Order',
+    hero_badge:'✦ Premium Furniture in Georgia',
+    hero_h1a:'Premium Furniture', hero_h1b:'For Your Home',
+    hero_sub:'Italian & Turkish quality · Exclusive design · Comfort in every detail',
+    hero_btn1:'📦 View Catalog', hero_btn_ai:'🤖 AI Consultant', hero_btn2:'📞 Contact Us',
+    feat1_t:'Free Delivery', feat1_d:'On orders over 300₾',
+    feat2_t:'Premium Quality', feat2_d:'Italian & Turkish brands',
+    feat3_t:'14-Day Returns', feat3_d:'Not satisfied? Return it.',
+    feat4_t:'24/7 Support', feat4_d:'Via WhatsApp anytime',
+    cat_label:'Catalog', cat_title:'Popular Products', cat_sub:'Find furniture that matches your style',
+    badge_best:'Bestseller', badge_new:'New', btn_cart:'Add to Cart +',
+    p1_name:'Luxury Velvet Sofa', p1_desc:'Bouclé velvet, 3-seater, gold legs',
+    p2_name:'Oak Dining Set', p2_desc:'Solid oak table with 6 chairs, Italian design',
+    p3_name:'King Size Bedroom', p3_desc:'180×200 bed, side tables, mirror dresser',
+    p4_name:'Modern TV Unit', p4_desc:'200 cm, LED lighting, modern style',
+    arr_label:'New Arrivals', arr_title:'360° View', arr_sub:'Drag the image to see from every angle',
+    drag_hint:'↔ Drag to rotate',
+    v1_name:'Boucle Armchair', v1_desc:'Boucle fabric · Wooden base',
+    v2_name:'Accent Armchair', v2_desc:'Velvet · Gold legs',
+    v3_name:'Art Print Sofa', v3_desc:'2-seater · Botanical print',
+    v4_name:'Rope Armchair', v4_desc:'Natural rope · Metal frame',
+    gal_label:'Gallery', gal_title:'Our Collection',
+    rev_label:'Reviews', rev_title:'Our Customers', rev_sub:'500+ happy families in Georgia',
+    r1:'"The boucle armchair is exactly as pictured. Exceptional quality!"',
+    r2:'"The dining set is perfect. Best value for money!"',
+    r3:'"The AI consultant helped me choose the perfect style!"',
+    con_label:'Contact', con_title:'Get in Touch',
+    c_addr_l:'Address', c_addr_v:'Tbilisi, Georgia',
+    c_phone_l:'Phone / WhatsApp', c_email_l:'Email',
+    c_hours_l:'Working Hours', c_hours_v:'Every day 10:00 – 20:00',
+    f_name:'Name', f_phone:'Phone', f_email:'Email', f_msg:'Message...',
+    f_send:'Send ✉️', footer_copy:'© 2026 Felice — Furniture House. All rights reserved.',
+    ai_name:'Felice AI Consultant', ai_ph:'Ask a question...',
+    chip1:'Sofa', chip2:'Prices', chip3:'Delivery', chip4:'360° View',
+    ai_greet:'Hello! 👋 I am the Felice AI Consultant. How can I help you?',
+    ai_sofa:'We have the Luxury Velvet 2490₾ and Art Print 2150₾. See in 360° viewer! 🛋️',
+    ai_price:'Prices: armchairs 980–1850₾, sofas 2150–2490₾, bedroom set 4200₾ 💰',
+    ai_delivery:'Free delivery in Tbilisi on orders over 300₾. 1-3 working days 🚚',
+    ai_360:'In the "New Arrivals" section drag the image to see from every angle! 🔄',
+    ai_default:'For more info: WhatsApp +995 505 052 706 📞',
+    form_ok:'✅ Message sent! We will contact you soon.'
+  },
+  ru:{
+    tagline:'Дом мебели', nav_catalog:'Каталог', nav_arrivals:'Новинки',
+    nav_about:'О нас', nav_contact:'Контакт', nav_order:'Заказать',
+    hero_badge:'✦ Премиум мебель в Грузии',
+    hero_h1a:'Премиум мебель', hero_h1b:'для вашего дома',
+    hero_sub:'Итальянское и турецкое качество · Эксклюзивный дизайн · Комфорт в каждой детали',
+    hero_btn1:'📦 Смотреть каталог', hero_btn_ai:'🤖 AI Консультант', hero_btn2:'📞 Связаться',
+    feat1_t:'Бесплатная доставка', feat1_d:'При заказе от 300₾',
+    feat2_t:'Премиум качество', feat2_d:'Итальянские и турецкие бренды',
+    feat3_t:'Возврат 14 дней', feat3_d:'Не устраивает — вернём',
+    feat4_t:'Поддержка 24/7', feat4_d:'Через WhatsApp в любое время',
+    cat_label:'Каталог', cat_title:'Популярные товары', cat_sub:'Выберите мебель в вашем стиле',
+    badge_best:'Хит продаж', badge_new:'Новинка', btn_cart:'В корзину +',
+    p1_name:'Люкс велюровый диван', p1_desc:'Букле велюр, 3-местный, золотые ножки',
+    p2_name:'Дубовый обеденный комплект', p2_desc:'Дубовый стол с 6 стульями, итальянский дизайн',
+    p3_name:'King Size спальный гарнитур', p3_desc:'Кровать 180×200, тумбы, зеркало',
+    p4_name:'Модерн ТВ стойка', p4_desc:'200 см, LED подсветка, современный стиль',
+    arr_label:'Новые поступления', arr_title:'Обзор 360°', arr_sub:'Перетащите изображение для просмотра со всех сторон',
+    drag_hint:'↔ Перетащите',
+    v1_name:'Кресло Boucle', v1_desc:'Ткань букле · Деревянное основание',
+    v2_name:'Акцентное кресло', v2_desc:'Велюр · Золотые ножки',
+    v3_name:'Диван Art Print', v3_desc:'2-местный · Ботанический принт',
+    v4_name:'Верёвочное кресло', v4_desc:'Натуральная верёвка · Металлический каркас',
+    gal_label:'Галерея', gal_title:'Наша коллекция',
+    rev_label:'Отзывы', rev_title:'Наши клиенты', rev_sub:'500+ довольных семей в Грузии',
+    r1:'"Кресло Boucle точно как на фото. Исключительное качество!"',
+    r2:'"Обеденный комплект безупречен. Лучшее соотношение цены и качества!"',
+    r3:'"AI консультант очень помог с выбором стиля. Дом преобразился!"',
+    con_label:'Контакт', con_title:'Свяжитесь с нами',
+    c_addr_l:'Адрес', c_addr_v:'Тбилиси, Грузия',
+    c_phone_l:'Телефон / WhatsApp', c_email_l:'Эл. почта',
+    c_hours_l:'Часы работы', c_hours_v:'Каждый день 10:00 – 20:00',
+    f_name:'Имя', f_phone:'Телефон', f_email:'Эл. почта', f_msg:'Сообщение...',
+    f_send:'Отправить ✉️', footer_copy:'© 2026 Felice — Дом мебели. Все права защищены.',
+    ai_name:'AI Консультант Felice', ai_ph:'Задайте вопрос...',
+    chip1:'Диван', chip2:'Цены', chip3:'Доставка', chip4:'360° обзор',
+    ai_greet:'Здравствуйте! 👋 Я AI консультант Felice. Чем могу помочь?',
+    ai_sofa:'Есть велюровый диван 2490₾ и Art Print 2150₾. Смотрите в 360°! 🛋️',
+    ai_price:'Цены: кресла 980–1850₾, диваны 2150–2490₾, спальня 4200₾ 💰',
+    ai_delivery:'Бесплатная доставка в Тбилиси от 300₾. 1-3 рабочих дня 🚚',
+    ai_360:'В разделе "Новые поступления" перетащите изображение для обзора 360°! 🔄',
+    ai_default:'Подробнее: WhatsApp +995 505 052 706 📞',
+    form_ok:'✅ Сообщение отправлено! Скоро свяжемся с вами.'
+  },
+  tr:{
+    tagline:'Mobilya Evi', nav_catalog:'Katalog', nav_arrivals:'Yeni',
+    nav_about:'Hakkımızda', nav_contact:'İletişim', nav_order:'Sipariş',
+    hero_badge:'✦ Gürcistan\'da Premium Mobilya',
+    hero_h1a:'Premium Mobilya', hero_h1b:'Eviniz İçin',
+    hero_sub:'İtalyan ve Türk kalitesi · Özel tasarım · Her ayrıntıda konfor',
+    hero_btn1:'📦 Kataloğu Gör', hero_btn_ai:'🤖 AI Danışman', hero_btn2:'📞 İletişime Geç',
+    feat1_t:'Ücretsiz Teslimat', feat1_d:'300₾ üzeri siparişlerde',
+    feat2_t:'Premium Kalite', feat2_d:'İtalyan ve Türk markaları',
+    feat3_t:'14 Günlük İade', feat3_d:'Memnun değilseniz iade edin',
+    feat4_t:'7/24 Destek', feat4_d:'WhatsApp\'tan her zaman',
+    cat_label:'Katalog', cat_title:'Popüler Ürünler', cat_sub:'Tarzınıza uygun mobilyayı seçin',
+    badge_best:'Çok Satan', badge_new:'Yeni', btn_cart:'Sepete Ekle +',
+    p1_name:'Lüks Kadife Kanepe', p1_desc:'Bukle kadife, 3 kişilik, altın ayaklar',
+    p2_name:'Meşe Yemek Odası Takımı', p2_desc:'6 sandalyeli meşe masa, İtalyan tasarımı',
+    p3_name:'King Size Yatak Odası', p3_desc:'180×200 karyola, komodinler, aynalı şifonyer',
+    p4_name:'Modern TV Ünitesi', p4_desc:'200 cm, LED aydınlatma, modern stil',
+    arr_label:'Yeni Gelenler', arr_title:'360° Görünüm', arr_sub:'Her açıdan görmek için sürükleyin',
+    drag_hint:'↔ Sürükleyin',
+    v1_name:'Boucle Koltuk', v1_desc:'Bukle kumaş · Ahşap taban',
+    v2_name:'Accent Koltuk', v2_desc:'Kadife · Altın ayaklar',
+    v3_name:'Art Print Kanepe', v3_desc:'2 kişilik · Botanik baskı',
+    v4_name:'Rope Koltuk', v4_desc:'Doğal halat · Metal iskelet',
+    gal_label:'Galeri', gal_title:'Koleksiyonumuz',
+    rev_label:'Yorumlar', rev_title:'Müşterilerimiz', rev_sub:'Gürcistan\'da 500+ mutlu aile',
+    r1:'"Boucle koltuk fotoğraftaki gibi. Kalite mükemmel!"',
+    r2:'"Yemek takımı mükemmel. Fiyat-kalite oranı en iyi!"',
+    r3:'"AI danışmanı stil seçiminde çok yardımcı oldu!"',
+    con_label:'İletişim', con_title:'Bize Ulaşın',
+    c_addr_l:'Adres', c_addr_v:'Tiflis, Gürcistan',
+    c_phone_l:'Telefon / WhatsApp', c_email_l:'E-posta',
+    c_hours_l:'Çalışma Saatleri', c_hours_v:'Her gün 10:00 – 20:00',
+    f_name:'Ad', f_phone:'Telefon', f_email:'E-posta', f_msg:'Mesajınız...',
+    f_send:'Gönder ✉️', footer_copy:'© 2026 Felice — Mobilya Evi. Tüm hakları saklıdır.',
+    ai_name:'Felice AI Danışman', ai_ph:'Soru sorun...',
+    chip1:'Kanepe', chip2:'Fiyatlar', chip3:'Teslimat', chip4:'360° Görünüm',
+    ai_greet:'Merhaba! 👋 Felice AI danışmanıyım. Size nasıl yardımcı olabilirim?',
+    ai_sofa:'Lüks Kadife 2490₾ ve Art Print 2150₾ var. 360° görünümde inceleyin! 🛋️',
+    ai_price:'Fiyatlar: koltuklar 980–1850₾, kanepeler 2150–2490₾, yatak odası 4200₾ 💰',
+    ai_delivery:'Tiflis\'te 300₾ üzeri ücretsiz teslimat! 1-3 iş günü 🚚',
+    ai_360:'"Yeni Gelenler" bölümünde 360° görmek için sürükleyin! 🔄',
+    ai_default:'Detay için: WhatsApp +995 505 052 706 📞',
+    form_ok:'✅ Mesaj gönderildi! En kısa sürede iletişime geçeceğiz.'
+  }
+};
+
+let lang = 'ka';
+
+function setLang(l) {
+  lang = l;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  applyTranslations();
+}
+
+function applyTranslations() {
+  const d = T[lang];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const k = el.dataset.i18n;
+    if (d[k] !== undefined) el.textContent = d[k];
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    const k = el.dataset.i18nPh;
+    if (d[k] !== undefined) el.placeholder = d[k];
+  });
+  document.getElementById('ai-greeting').textContent = d.ai_greet;
+}
+
+/* ── Burger ── */
 document.getElementById('burger-btn').addEventListener('click', () => {
   document.getElementById('main-nav').classList.toggle('open');
 });
 
 /* ── AI Chat ── */
 function toggleAI() {
-  const chat = document.getElementById('ai-chat');
-  chat.style.display = chat.style.display === 'flex' ? 'none' : 'flex';
-  chat.style.flexDirection = 'column';
+  const c = document.getElementById('ai-chat');
+  c.style.display = c.style.display === 'flex' ? 'none' : 'flex';
 }
 
-const aiResponses = {
-  'სავარძელი': 'გვაქვს Boucle, Accent და Rope სავარძლები — 980₾-დან. 360° viewer-ში ყველა კუთხე შეგიძლია ნახო! 🛋️',
-  'ფასები': 'ჩვენი ფასები: სავარძლები 980–1850₾, დივნები 2150–2490₾, საძინებელი 4200₾. ფასდაკლება ხშირად გვაქვს! 💰',
-  'მიწოდება': 'თბილისში 300₾+ შეკვეთა — მიწოდება უფასო! 1-3 სამუშაო დღეში. 🚚',
-  '360° ხედი': 'სექციაში "ახალი ჩამოსვლა" ნახავ 360° viewer-ს. გადაათრიე სურათი ნებისმიერი კუთხის სანახავად! 🔄',
-  'default': 'გმადლობ კითხვისთვის! დეტალური ინფოსთვის დაგვიკავშირდი WhatsApp-ზე: +995 505 052 706 📞'
-};
-
-function getAIResponse(msg) {
-  const m = msg.toLowerCase();
-  for (const [key, val] of Object.entries(aiResponses)) {
-    if (m.includes(key)) return val;
-  }
-  return aiResponses['default'];
+function aiResp(msg) {
+  const d = T[lang]; const m = msg.toLowerCase();
+  if (m === 'sofa' || m.includes('диван') || m.includes('kanepe') || m.includes('დივ'))  return d.ai_sofa;
+  if (m === 'price'|| m.includes('ფას') || m.includes('цен')  || m.includes('fiyat'))    return d.ai_price;
+  if (m === 'delivery'||m.includes('მიწ')||m.includes('доставк')||m.includes('teslimat'))return d.ai_delivery;
+  if (m === '360'  || m.includes('360'))                                                  return d.ai_360;
+  return d.ai_default;
 }
 
-function addMessage(text, type) {
-  const box = document.getElementById('ai-messages');
-  const div = document.createElement('div');
-  div.className = `ai-msg ${type}`;
-  div.textContent = text;
-  box.appendChild(div);
-  box.scrollTop = box.scrollHeight;
+function addMsg(txt, type) {
+  const b = document.getElementById('ai-messages');
+  const d = document.createElement('div');
+  d.className = 'ai-msg ' + type; d.textContent = txt;
+  b.appendChild(d); b.scrollTop = b.scrollHeight;
 }
 
 function sendAI() {
-  const input = document.getElementById('ai-input-field');
-  const msg = input.value.trim();
-  if (!msg) return;
-  addMessage(msg, 'user');
-  input.value = '';
-  setTimeout(() => addMessage(getAIResponse(msg), 'bot'), 600);
+  const inp = document.getElementById('ai-input-field');
+  const v = inp.value.trim(); if (!v) return;
+  addMsg(v, 'user'); inp.value = '';
+  setTimeout(() => addMsg(aiResp(v), 'bot'), 550);
 }
 
-function askAI(q) {
-  addMessage(q, 'user');
-  setTimeout(() => addMessage(getAIResponse(q), 'bot'), 600);
-}
+function askAI(q) { addMsg(T[lang]['chip'+['sofa','price','delivery','360'].indexOf(q)+1]||q,'user'); setTimeout(()=>addMsg(aiResp(q),'bot'),550); }
 
-/* ── 360° Sprite-sheet viewer (Boucle Chair) ── */
-(function() {
+/* ── 360° Sprite-sheet (Boucle) ── */
+(function(){
   const stage  = document.getElementById('stage-boucle');
   const sprite = document.getElementById('sprite-boucle');
-  const FRAMES = 12, COLS = 4, ROWS = 3;
+  const FRAMES=12, COLS=4, ROWS=3;
+  sprite.style.backgroundImage = `url('${stage.dataset.src}')`;
 
-  // Load sprite sheet
-  const src = stage.dataset.src;
-  sprite.style.backgroundImage = `url('${src}')`;
+  let frame=0, dragging=false, startX=0, lastFrame=0;
+  function show(f){ frame=((f%FRAMES)+FRAMES)%FRAMES; const c=frame%COLS, r=Math.floor(frame/COLS); sprite.style.backgroundPosition=`${c*(100/(COLS-1))}% ${r*(100/(ROWS-1))}%`; }
+  show(0);
 
-  let frame = 0;
-  function showFrame(f) {
-    frame = ((f % FRAMES) + FRAMES) % FRAMES;
-    const col = frame % COLS;
-    const row = Math.floor(frame / COLS);
-    sprite.style.backgroundPosition = `${col * (100/(COLS-1))}% ${row * (100/(ROWS-1))}%`;
-  }
-  showFrame(0);
+  const onStart=x=>{dragging=true;startX=x;lastFrame=frame;};
+  const onMove =x=>{if(!dragging)return;show(lastFrame+Math.round((x-startX)/22));};
+  const onEnd  =()=>{dragging=false;};
 
-  let dragging = false, startX = 0, lastFrame = 0;
-
-  const onStart = x => { dragging = true; startX = x; lastFrame = frame; };
-  const onMove  = x => {
-    if (!dragging) return;
-    const delta = x - startX;
-    showFrame(lastFrame + Math.round(delta / 22));
-  };
-  const onEnd   = () => { dragging = false; };
-
-  stage.addEventListener('mousedown',  e => onStart(e.clientX));
-  window.addEventListener('mousemove', e => onMove(e.clientX));
-  window.addEventListener('mouseup',   onEnd);
-  stage.addEventListener('touchstart', e => onStart(e.touches[0].clientX), { passive: true });
-  stage.addEventListener('touchmove',  e => { e.preventDefault(); onMove(e.touches[0].clientX); }, { passive: false });
-  stage.addEventListener('touchend',   onEnd);
+  stage.addEventListener('mousedown',e=>onStart(e.clientX));
+  window.addEventListener('mousemove',e=>onMove(e.clientX));
+  window.addEventListener('mouseup',onEnd);
+  stage.addEventListener('touchstart',e=>onStart(e.touches[0].clientX),{passive:true});
+  stage.addEventListener('touchmove',e=>{e.preventDefault();onMove(e.touches[0].clientX);},{passive:false});
+  stage.addEventListener('touchend',onEnd);
 })();
 
-/* ── 360° CSS-rotate viewer (other products) ── */
-document.querySelectorAll('.viewer-stage[data-type="rotate"]').forEach(stage => {
-  const img = stage.querySelector('img');
-  let dragging = false, startX = 0, rotY = 0, curRotY = 0;
-
-  const onStart = x => { dragging = true; startX = x; curRotY = rotY; };
-  const onMove  = x => {
-    if (!dragging) return;
-    rotY = curRotY + (x - startX) * 0.45;
-    img.style.transform = `perspective(600px) rotateY(${rotY}deg)`;
-  };
-  const onEnd   = () => { dragging = false; };
-
-  stage.addEventListener('mousedown',  e => onStart(e.clientX));
-  window.addEventListener('mousemove', e => onMove(e.clientX));
-  window.addEventListener('mouseup',   onEnd);
-  stage.addEventListener('touchstart', e => onStart(e.touches[0].clientX), { passive: true });
-  stage.addEventListener('touchmove',  e => { e.preventDefault(); onMove(e.touches[0].clientX); }, { passive: false });
-  stage.addEventListener('touchend',   onEnd);
+/* ── 360° CSS-rotate (other products) ── */
+document.querySelectorAll('.viewer-stage[data-type="rotate"]').forEach(stage=>{
+  const img=stage.querySelector('img');
+  let drag=false,sx=0,rot=0,cur=0;
+  stage.addEventListener('mousedown',e=>{drag=true;sx=e.clientX;cur=rot;});
+  window.addEventListener('mousemove',e=>{if(!drag)return;rot=cur+(e.clientX-sx)*.45;img.style.transform=`perspective(600px) rotateY(${rot}deg)`;});
+  window.addEventListener('mouseup',()=>drag=false);
+  stage.addEventListener('touchstart',e=>{drag=true;sx=e.touches[0].clientX;cur=rot;},{passive:true});
+  stage.addEventListener('touchmove',e=>{e.preventDefault();if(!drag)return;rot=cur+(e.touches[0].clientX-sx)*.45;img.style.transform=`perspective(600px) rotateY(${rot}deg)`;},{passive:false});
+  stage.addEventListener('touchend',()=>drag=false);
 });
 
-/* ── Form submit ── */
-function sendForm(e) {
-  e.preventDefault();
-  alert('✅ შეტყობინება გაიგზავნა! მალე დაგიკავშირდებით.');
-  e.target.reset();
-}
+/* ── Form ── */
+function sendForm(e){ e.preventDefault(); alert(T[lang].form_ok); e.target.reset(); }
 </script>
 </body>
 </html>
