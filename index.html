@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Felice | პრემიუმ ავეჯის სახლი</title>
+    <style>
+        :root {
+            --primary: #1a1a1a;
+            --accent: #c9a96e;
+            --light: #f5f5f5;
+            --text: #333;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { color: var(--text); line-height: 1.6; }
+        
+        /* Header */
+        header { background: var(--primary); color: white; padding: 1rem 5%; position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; gap: 0.7rem; font-size: 1.8rem; font-weight: bold; color: var(--accent); letter-spacing: 2px; }
+        .logo img { height: 52px; width: 52px; border-radius: 50%; object-fit: cover; }
+        nav a { color: white; text-decoration: none; margin-left: 2rem; transition: 0.3s; }
+        nav a:hover { color: var(--accent); }
+        
+        /* Hero */
+        .hero { background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=1600'); background-size: cover; background-position: center; height: 80vh; display: flex; align-items: center; justify-content: center; text-align: center; color: white; }
+        .hero h1 { font-size: 3.5rem; margin-bottom: 1rem; }
+        .hero p { font-size: 1.3rem; margin-bottom: 2rem; }
+        .btn { background: var(--accent); color: var(--primary); padding: 1rem 2.5rem; text-decoration: none; font-weight: bold; border-radius: 4px; transition: 0.3s; display: inline-block; }
+        .btn:hover { background: #b8944d; transform: translateY(-2px); }
+        
+        /* Categories */
+        .section { padding: 5rem 5%; }
+        .section-title { text-align: center; font-size: 2.2rem; margin-bottom: 3rem; color: var(--primary); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .card { background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.08); transition: 0.3s; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.12); }
+        .card-img { height: 250px; background: #ddd; background-size: cover; background-position: center; }
+        .card-body { padding: 1.5rem; }
+        .card-title { font-size: 1.3rem; margin-bottom: 0.5rem; color: var(--primary); }
+        
+        /* Features */
+        .features { background: var(--light); }
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; text-align: center; }
+        .feature-icon { font-size: 2.5rem; color: var(--accent); margin-bottom: 1rem; }
+
+        /* 3D product viewer */
+        .p3d-note { text-align: center; max-width: 640px; margin: -2rem auto 3rem; color: #777; }
+        .p3d-stage {
+            height: 300px; background: #f2f0ec; display: flex; align-items: center; justify-content: center;
+            perspective: 900px; position: relative; overflow: hidden; cursor: grab;
+        }
+        .p3d-stage:active { cursor: grabbing; }
+        .p3d-stage img {
+            max-width: 82%; max-height: 82%; object-fit: contain; pointer-events: none;
+            transition: transform .12s ease-out; will-change: transform; user-select: none;
+        }
+        .p3d-hint {
+            position: absolute; top: 10px; right: 10px; background: rgba(26,26,26,0.75); color: #fff;
+            font-size: 0.7rem; padding: 0.3rem 0.6rem; border-radius: 20px; letter-spacing: .02em; pointer-events: none;
+        }
+        .price-row { display: flex; align-items: center; justify-content: space-between; margin-top: 0.9rem; }
+        .price-tag { background: var(--primary); color: var(--accent); font-weight: bold; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.95rem; }
+        .price-tag.ask { background: #eee; color: #555; font-weight: 600; }
+        
+        /* Contact */
+        .contact { background: var(--primary); color: white; }
+        .contact .section-title { color: white; }
+        .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 3rem; }
+        .contact-item h3 { color: var(--accent); margin-bottom: 1rem; }
+        .social-links { display: flex; gap: 1rem; margin-top: 1.5rem; }
+        .social-links a { color: white; text-decoration: none; padding: 0.5rem 1rem; border: 1px solid rgba(255,255,255,0.3); border-radius: 4px; transition: 0.3s; }
+        .social-links a:hover { background: var(--accent); border-color: var(--accent); color: var(--primary); }
+        
+        /* Footer */
+        footer { background: #111; color: #888; text-align: center; padding: 2rem; font-size: 0.9rem; }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.2rem; }
+            nav { display: none; }
+            header { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo"><img src="images/logo-felice-badge.png" alt="FELICE"></div>
+        <nav>
+            <a href="#categories">კატალოგი</a>
+            <a href="#features">უპირატესობები</a>
+            <a href="#contact">კონტაქტი</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div>
+            <h1>პრემიუმ ავეჯი თქვენი სახლისთვის</h1>
+            <p>იტალიური და თურქული ხარისხი • ექსკლუზიური დიზაინი • კომფორტი</p>
+            <a href="#categories" class="btn">კატალოგის ნახვა</a>
+        </div>
+    </section>
+
+    <section id="categories" class="section">
+        <h2 class="section-title">ჩვენი კოლექცია</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="card-img" style="background-image: url('images/sofa-graffiti-sale.jpg')"></div>
+                <div class="card-body">
+                    <h3 class="card-title">დივნები</h3>
+                    <p>კომფორტული და სტილური დივნები ნებისმიერი ინტერიერისთვის</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-img" style="background-image: url('images/chair-cream-boucle.jpg')"></div>
+                <div class="card-body">
+                    <h3 class="card-title">სავარძლები</h3>
+                    <p>ერგონომიული დიზაინი და პრემიუმ მასალები</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1505693416388-b0346ef41439?w=600')"></div>
+                <div class="card-body">
+                    <h3 class="card-title">საძინებელი</h3>
+                    <p>სრული კომპლექტები მშვიდი ძილისთვის</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1595514020180-27209b46d724?w=600')"></div>
+                <div class="card-body">
+                    <h3 class="card-title">სასადილო</h3>
+                    <p>მაგიდები და სკამები ოჯახური ვახშმისთვის</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1532372320572-cda25653a26d?w=600')"></div>
+                <div class="card-body">
+                    <h3 class="card-title">TV კაბინეტები</h3>
+                    <p>თანამედროვე დიზაინი და ფუნქციონალობა</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600')"></div>
+                <div class="card-body">
+                    <h3 class="card-title">აქსესუარები</h3>
+                    <p>დეტალები, რომლებიც ინტერიერს ასრულებს</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="new-arrivals" class="section" style="background:#fafafa;">
+        <h2 class="section-title">ახალი ჩამოსვლა — 3D ხედვა</h2>
+        <p class="p3d-note">ჩაავლეთ მაუსით (ან თითით) ფოტოს და ატრიალეთ — ნახეთ ავეჯი იმ კუთხით, რომელიც გენდომებათ.</p>
+        <div class="grid">
+            <div class="card">
+                <div class="p3d-stage">
+                    <span class="p3d-hint">🔄 ატრიალეთ</span>
+                    <img src="images/chair-pink-rabbit-sale.jpg" alt="აქცენტის სავარძელი">
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">აქცენტის სავარძელი</h3>
+                    <p>რბილი, სკულპტურული ფორმა — ნებისმიერი ოთახის აქცენტი</p>
+                    <div class="price-row"><span class="price-tag">1900₾</span></div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="p3d-stage">
+                    <span class="p3d-hint">🔄 ატრიალეთ</span>
+                    <img src="images/sofa-graffiti-sale.jpg" alt="დივანი — გრაფიკული ნაქარგი">
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">დივანი — არტ პრინტი</h3>
+                    <p>თამამი გრაფიკული ნაქსოვი, კომფორტული ღრმა ჯდომა</p>
+                    <div class="price-row"><span class="price-tag">6749₾</span></div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="p3d-stage">
+                    <span class="p3d-hint">🔄 ატრიალეთ</span>
+                    <img src="images/chair-white-editorial.jpg" alt="თეთრი სავარძელი">
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">Boucle სავარძელი</h3>
+                    <p>მინიმალისტური სილუეტი, რბილი ბუკლე ქსოვილი</p>
+                    <div class="price-row"><span class="price-tag ask">ფასი მოთხოვნით</span></div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="p3d-stage">
+                    <span class="p3d-hint">🔄 ატრიალეთ</span>
+                    <img src="images/outdoor-green-rope.jpg" alt="გარე სავარძელი">
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">გარე სავარძელი — Rope</h3>
+                    <p>ხელნაქსოვი თოკის ტექსტურა, ამინდგამძლე ჩარჩო</p>
+                    <div class="price-row"><span class="price-tag ask">ფასი მოთხოვნით</span></div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="p3d-stage">
+                    <span class="p3d-hint">🔄 ატრიალეთ</span>
+                    <img src="images/showroom-lifestyle.jpg" alt="საბუკლე სავარძლები">
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">საბუკლე სავარძლების წყვილი</h3>
+                    <p>ჩვენი შოურუმიდან — თბილი ტექსტურა, მყარი ჩარჩო</p>
+                    <div class="price-row"><span class="price-tag ask">ფასი მოთხოვნით</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="section features">
+        <h2 class="section-title">რატომ Felice?</h2>
+        <div class="feature-grid">
+            <div>
+                <div class="feature-icon">★</div>
+                <h3>პრემიუმ ხარისხი</h3>
+                <p>იტალიური და თურქული წარმოების სერტიფიცირებული ავეჯი</p>
+            </div>
+            <div>
+                <div class="feature-icon">🚚</div>
+                <h3>უფასო მიწოდება</h3>
+                <p>თბილისის მასშტაბით უფასო მიწოდება და აწყობა</p>
+            </div>
+            <div>
+                <div class="feature-icon">🛡️</div>
+                <h3>გარანტია</h3>
+                <p>2 წლიანი გარანტია ყველა პროდუქტზე</p>
+            </div>
+            <div>
+                <div class="feature-icon">💬</div>
+                <h3>კონსულტაცია</h3>
+                <p>პროფესიონალი დიზაინერების უფასო კონსულტაცია</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section contact">
+        <h2 class="section-title">დაგვიკავშირდით</h2>
+        <div class="contact-grid">
+            <div class="contact-item">
+                <h3>📍 მისამართი</h3>
+                <p>აღმაშენებლის ხეივანი 68<br>ავეჯის მოლი "თბილისი პავილიონი"<br>მე-2 სართული</p>
+            </div>
+            <div class="contact-item">
+                <h3>📞 ტელეფონი</h3>
+                <p>+995 505 05 27 06</p>
+                <p>info@felice.ge</p>
+            </div>
+            <div class="contact-item">
+                <h3>🕐 სამუშაო საათები</h3>
+                <p>ორშ - შაბ: 10:00 - 20:00<br>კვირა: 11:00 - 19:00</p>
+            </div>
+        </div>
+        <div class="social-links" style="justify-content: center; margin-top: 3rem;">
+            <a href="https://facebook.com/feliche.furniturestore" target="_blank">Facebook</a>
+            <a href="https://instagram.com/felice.furnitureshop" target="_blank">Instagram</a>
+            <a href="https://wa.me/995505052706" target="_blank">WhatsApp</a>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 Felice Furniture Store. ყველა უფლება დაცულია.</p>
+    </footer>
+
+    <script>
+        // Drag-to-tilt "3D" viewer: lets the visitor rotate the product photo
+        // by dragging, viewing it from a slightly different angle/perspective.
+        document.querySelectorAll('.p3d-stage').forEach(stage => {
+            const img = stage.querySelector('img');
+            let dragging = false, startX = 0, startY = 0, rotX = 0, rotY = 0;
+
+            const setTransform = (rx, ry) => {
+                img.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
+            };
+
+            const start = (x, y) => { dragging = true; startX = x; startY = y; };
+            const move = (x, y) => {
+                if (!dragging) return;
+                const dx = x - startX, dy = y - startY;
+                rotY = Math.max(-35, Math.min(35, dx * 0.25));
+                rotX = Math.max(-20, Math.min(20, -dy * 0.25));
+                setTransform(rotX, rotY);
+            };
+            const end = () => {
+                dragging = false;
+                setTransform(0, 0); // ease back to front view
+            };
+
+            stage.addEventListener('mousedown', e => start(e.clientX, e.clientY));
+            window.addEventListener('mousemove', e => move(e.clientX, e.clientY));
+            window.addEventListener('mouseup', end);
+
+            stage.addEventListener('touchstart', e => {
+                const t = e.touches[0]; start(t.clientX, t.clientY);
+            }, { passive: true });
+            stage.addEventListener('touchmove', e => {
+                const t = e.touches[0]; move(t.clientX, t.clientY);
+            }, { passive: true });
+            stage.addEventListener('touchend', end);
+        });
+    </script>
+</body>
+</html>
