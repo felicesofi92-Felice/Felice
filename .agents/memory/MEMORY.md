@@ -1,0 +1,1 @@
+- [Vercel Git linking](vercel-linking.md) — თუ Vercel CLI-ის პაკეტი ვერ ჩამოიტვირთა, პროექტის GitHub კავშირი REST API-ით იცვლება.
