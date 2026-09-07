@@ -60,6 +60,19 @@
     }
     .lang-btn:hover, .lang-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(201,169,110,.08); }
 
+    .assistant-nav-btn {
+      display: inline-flex; align-items: center; gap: .4rem;
+      background: rgba(45,90,61,.08); border: 1.5px solid rgba(45,90,61,.28);
+      color: var(--green); padding: .28rem .65rem; border-radius: 5px;
+      font-size: .82rem; font-weight: 600; cursor: pointer; transition: .2s;
+      white-space: nowrap;
+    }
+    .assistant-nav-btn:hover, .assistant-nav-btn:focus-visible {
+      background: var(--green); border-color: var(--green); color: #fff;
+      outline: none; transform: translateY(-1px);
+    }
+    .assistant-nav-icon { font-size: 1rem; line-height: 1; }
+
     .burger { display: none; background: none; border: none; cursor: pointer; flex-direction: column; gap: 5px; }
     .burger span { display: block; width: 22px; height: 2px; background: var(--accent); border-radius: 2px; }
 
@@ -286,6 +299,15 @@
       .lang-btn { padding: .2rem .35rem; font-size: .75rem; }
       .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
     }
+    @media (max-width: 560px) {
+      .assistant-nav-btn { width: 34px; height: 31px; padding: 0; justify-content: center; }
+      .assistant-nav-label { display: none; }
+      header { gap: .5rem; }
+      header > .logo { min-width: 0; }
+      .logo-text { font-size: 1.1rem; letter-spacing: 2px; }
+      .logo-sub { font-size: .5rem; letter-spacing: 1px; }
+      .logo img { height: 42px; width: 42px; }
+    }
   </style>
 </head>
 <body>
@@ -309,11 +331,15 @@
   </nav>
 
   <div style="display:flex;align-items:center;gap:.7rem">
+    <button class="assistant-nav-btn" type="button" onclick="toggleAI()" aria-controls="ai-chat" aria-label="Felice ასისტენტის გახსნა" title="Felice ასისტენტი">
+      <span class="assistant-nav-icon">✦</span>
+      <span class="assistant-nav-label" data-i18n="nav_assistant">ასისტენტი</span>
+    </button>
     <div class="lang-switcher">
-      <button class="lang-btn active" onclick="setLang('ka')">🇬🇪 ქარ</button>
-      <button class="lang-btn" onclick="setLang('en')">🇬🇧 ENG</button>
-      <button class="lang-btn" onclick="setLang('ru')">🇷🇺 РУС</button>
-      <button class="lang-btn" onclick="setLang('tr')">🇹🇷 TUR</button>
+      <button class="lang-btn active" onclick="setLang('ka', this)">🇬🇪 ქარ</button>
+      <button class="lang-btn" onclick="setLang('en', this)">🇬🇧 ENG</button>
+      <button class="lang-btn" onclick="setLang('ru', this)">🇷🇺 РУС</button>
+      <button class="lang-btn" onclick="setLang('tr', this)">🇹🇷 TUR</button>
     </div>
     <button class="burger" id="burger-btn"><span></span><span></span><span></span></button>
   </div>
@@ -560,7 +586,7 @@
 const T = {
   ka:{
     tagline:'ავეჯის სახლი', nav_catalog:'კატალოგი', nav_arrivals:'ახალი',
-    nav_about:'ჩვენ შესახებ', nav_contact:'კონტაქტი', nav_order:'შეკვეთა',
+    nav_about:'ჩვენ შესახებ', nav_contact:'კონტაქტი', nav_order:'შეკვეთა', nav_assistant:'ასისტენტი',
     hero_badge:'✦ პრემიუმ ავეჯი საქართველოში',
     hero_h1a:'პრემიუმ ავეჯი', hero_h1b:'თქვენი სახლისთვის',
     hero_sub:'იტალიური და თურქული ხარისხი · ექსკლუზიური დიზაინი · კომფორტი ყოველ დეტალში',
@@ -592,7 +618,7 @@ const T = {
     c_hours_l:'სამუშაო საათები', c_hours_v:'ყოველდღე 10:00 – 20:00',
     f_name:'სახელი', f_phone:'ტელეფონი', f_email:'ელ. ფოსტა', f_msg:'შეტყობინება...',
     f_send:'გაგზავნა ✉️', footer_copy:'© 2026 Felice — ავეჯის სახლი. ყველა უფლება დაცულია.',
-    ai_name:'Felice AI კონსულტანტი', ai_ph:'კითხვა...',
+    ai_name:'Felice ასისტენტი', ai_ph:'კითხვა...',
     chip1:'დივანი', chip2:'ფასები', chip3:'მიწოდება', chip4:'360° ხედი',
     ai_greet:'გამარჯობა! 👋 მე ვარ Felice AI კონსულტანტი. როგორ დაგეხმარო?',
     ai_sofa:'გვაქვს ლუქს ველვეტი 2490₾ და Art Print 2150₾. 360° viewer-ში ნახეთ! 🛋️',
@@ -604,7 +630,7 @@ const T = {
   },
   en:{
     tagline:'Furniture House', nav_catalog:'Catalog', nav_arrivals:'New',
-    nav_about:'About Us', nav_contact:'Contact', nav_order:'Order',
+    nav_about:'About Us', nav_contact:'Contact', nav_order:'Order', nav_assistant:'Assistant',
     hero_badge:'✦ Premium Furniture in Georgia',
     hero_h1a:'Premium Furniture', hero_h1b:'For Your Home',
     hero_sub:'Italian & Turkish quality · Exclusive design · Comfort in every detail',
@@ -636,7 +662,7 @@ const T = {
     c_hours_l:'Working Hours', c_hours_v:'Every day 10:00 – 20:00',
     f_name:'Name', f_phone:'Phone', f_email:'Email', f_msg:'Message...',
     f_send:'Send ✉️', footer_copy:'© 2026 Felice — Furniture House. All rights reserved.',
-    ai_name:'Felice AI Consultant', ai_ph:'Ask a question...',
+    ai_name:'Felice Assistant', ai_ph:'Ask a question...',
     chip1:'Sofa', chip2:'Prices', chip3:'Delivery', chip4:'360° View',
     ai_greet:'Hello! 👋 I am the Felice AI Consultant. How can I help you?',
     ai_sofa:'We have the Luxury Velvet 2490₾ and Art Print 2150₾. See in 360° viewer! 🛋️',
@@ -648,7 +674,7 @@ const T = {
   },
   ru:{
     tagline:'Дом мебели', nav_catalog:'Каталог', nav_arrivals:'Новинки',
-    nav_about:'О нас', nav_contact:'Контакт', nav_order:'Заказать',
+    nav_about:'О нас', nav_contact:'Контакт', nav_order:'Заказать', nav_assistant:'Ассистент',
     hero_badge:'✦ Премиум мебель в Грузии',
     hero_h1a:'Премиум мебель', hero_h1b:'для вашего дома',
     hero_sub:'Итальянское и турецкое качество · Эксклюзивный дизайн · Комфорт в каждой детали',
@@ -680,7 +706,7 @@ const T = {
     c_hours_l:'Часы работы', c_hours_v:'Каждый день 10:00 – 20:00',
     f_name:'Имя', f_phone:'Телефон', f_email:'Эл. почта', f_msg:'Сообщение...',
     f_send:'Отправить ✉️', footer_copy:'© 2026 Felice — Дом мебели. Все права защищены.',
-    ai_name:'AI Консультант Felice', ai_ph:'Задайте вопрос...',
+    ai_name:'Ассистент Felice', ai_ph:'Задайте вопрос...',
     chip1:'Диван', chip2:'Цены', chip3:'Доставка', chip4:'360° обзор',
     ai_greet:'Здравствуйте! 👋 Я AI консультант Felice. Чем могу помочь?',
     ai_sofa:'Есть велюровый диван 2490₾ и Art Print 2150₾. Смотрите в 360°! 🛋️',
@@ -692,7 +718,7 @@ const T = {
   },
   tr:{
     tagline:'Mobilya Evi', nav_catalog:'Katalog', nav_arrivals:'Yeni',
-    nav_about:'Hakkımızda', nav_contact:'İletişim', nav_order:'Sipariş',
+    nav_about:'Hakkımızda', nav_contact:'İletişim', nav_order:'Sipariş', nav_assistant:'Asistan',
     hero_badge:'✦ Gürcistan\'da Premium Mobilya',
     hero_h1a:'Premium Mobilya', hero_h1b:'Eviniz İçin',
     hero_sub:'İtalyan ve Türk kalitesi · Özel tasarım · Her ayrıntıda konfor',
@@ -724,7 +750,7 @@ const T = {
     c_hours_l:'Çalışma Saatleri', c_hours_v:'Her gün 10:00 – 20:00',
     f_name:'Ad', f_phone:'Telefon', f_email:'E-posta', f_msg:'Mesajınız...',
     f_send:'Gönder ✉️', footer_copy:'© 2026 Felice — Mobilya Evi. Tüm hakları saklıdır.',
-    ai_name:'Felice AI Danışman', ai_ph:'Soru sorun...',
+    ai_name:'Felice Asistan', ai_ph:'Soru sorun...',
     chip1:'Kanepe', chip2:'Fiyatlar', chip3:'Teslimat', chip4:'360° Görünüm',
     ai_greet:'Merhaba! 👋 Felice AI danışmanıyım. Size nasıl yardımcı olabilirim?',
     ai_sofa:'Lüks Kadife 2490₾ ve Art Print 2150₾ var. 360° görünümde inceleyin! 🛋️',
@@ -738,10 +764,10 @@ const T = {
 
 let lang = 'ka';
 
-function setLang(l) {
+function setLang(l, button) {
   lang = l;
   document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-  event.currentTarget.classList.add('active');
+  if (button) button.classList.add('active');
   applyTranslations();
 }
 
@@ -767,15 +793,119 @@ document.getElementById('burger-btn').addEventListener('click', () => {
 function toggleAI() {
   const c = document.getElementById('ai-chat');
   c.style.display = c.style.display === 'flex' ? 'none' : 'flex';
+  if (c.style.display === 'flex') {
+    setTimeout(() => document.getElementById('ai-input-field').focus(), 80);
+  }
+}
+
+const AI_KNOWLEDGE = {
+  ka: {
+    sofa: 'ლუქს ველვეტ დივანი არის 3-ადგილიანი, ოქროსფერი ფეხებით და ღირს 2,490 ₾. Art Print დივანი 2-ადგილიანია, ბოტანიკური პრინტით და ღირს 2,150 ₾.',
+    dining: 'ოკი სასადილო კომპლექტი მოიცავს მუხის მაგიდას და 6 სკამს. მისი ფასი არის 3,850 ₾.',
+    bedroom: 'King Size საძინებლის კომპლექტი მოიცავს 180×200 საწოლს, გვერდით მაგიდებსა და ბუფეტ-სარკეს. ფასი: 4,200 ₾.',
+    tv: 'მოდერნ TV მოდული არის 200 სმ სიგანის, LED განათებით. ფასი: 1,190 ₾.',
+    armchair: 'ჩვენს კოლექციაში სავარძლების ფასებია 980–1,850 ₾: Rope, Accent და Boucle მოდელები. მათი 360° ხედი იხილეთ „ახალი ჩამოსვლა“ სექციაში.',
+    price: 'ფასები: სავარძლები 980–1,850 ₾, დივნები 2,150–2,490 ₾, TV მოდული 1,190 ₾, სასადილო კომპლექტი 3,850 ₾, საძინებელი 4,200 ₾.',
+    delivery: 'თბილისში 300 ₾-ზე მეტი შეკვეთისთვის მიწოდება უფასოა. სტანდარტული მიწოდება სრულდება 1–3 სამუშაო დღეში.',
+    returns: 'შეძენილი ნივთის დაბრუნება შესაძლებელია 14 დღის განმავლობაში, თუ პროდუქტი არ გაკმაყოფილებთ. დეტალების დასაზუსტებლად მოგვწერეთ WhatsApp-ზე.',
+    payment: 'შეკვეთის დასადასტურებლად დაგვიკავშირდით WhatsApp-ზე ან ტელეფონზე. გადახდის მეთოდს შეკვეთის გაფორმებისას დაგიზუსტებთ.',
+    contact: 'დაგვიკავშირდით WhatsApp-ზე: +995 505 052 706. ელფოსტა: felicesofi92@gmail.com. მისამართი: თბილისი, საქართველო.',
+    hours: 'მუშაობის საათებია ყოველდღე 10:00–20:00. WhatsApp-ზე შეკითხვების გამოგზავნა ნებისმიერ დროს შეგიძლიათ.',
+    quality: 'Felice გთავაზობთ იტალიური და თურქული ბრენდების პრემიუმ ხარისხის ავეჯს, ექსკლუზიური დიზაინითა და კომფორტზე აქცენტით.',
+    custom: 'შეკვეთისთვის აირჩიეთ სასურველი ნივთი კატალოგში და დაგვიკავშირდით WhatsApp-ზე. დაგეხმარებით ზომის, ფერისა და მოდელის შერჩევაში.',
+    catalog: 'კატალოგის სანახავად გადადით „კატალოგი“ სექციაში. იქ ნახავთ დივნებს, სასადილო კომპლექტს, საძინებელსა და TV მოდულს.',
+    view360: '„ახალი ჩამოსვლა“ სექციაში ნივთის ფოტოზე თითი ან მაუსი გადაათრიეთ მარცხნივ ან მარჯვნივ — მოდელს 360°-ით დაათვალიერებთ.',
+    account: 'კაბინეტის ან შეკვეთის საკითხზე დახმარებისთვის მოგვწერეთ WhatsApp-ზე +995 505 052 706. ჩვენი გუნდი ყოველდღე 10:00–20:00 მუშაობს.',
+    help: 'შემიძლია გიპასუხოთ პროდუქტებზე, ფასებზე, მიწოდებაზე, დაბრუნებაზე, გადახდაზე, 360° ხედზე, სამუშაო საათებსა და შეკვეთაზე.',
+    fallback: 'ამ საკითხზე ზუსტი ინფორმაცია რომ მოგაწოდოთ, დაგვიკავშირდით WhatsApp-ზე: +995 505 052 706. ასევე შეგიძლიათ მკითხოთ პროდუქტის, ფასის, მიწოდების ან შეკვეთის შესახებ.'
+  },
+  en: {
+    sofa: 'The Luxury Velvet Sofa seats 3, has gold legs, and costs 2,490 ₾. The Art Print Sofa seats 2, has a botanical print, and costs 2,150 ₾.',
+    dining: 'The Oak Dining Set includes a solid oak table and 6 chairs. Price: 3,850 ₾.',
+    bedroom: 'The King Size Bedroom set includes a 180×200 bed, bedside tables and a mirror dresser. Price: 4,200 ₾.',
+    tv: 'The Modern TV Unit is 200 cm wide and includes LED lighting. Price: 1,190 ₾.',
+    armchair: 'Armchairs range from 980–1,850 ₾: Rope, Accent and Boucle models. See their 360° views in New Arrivals.',
+    price: 'Prices: armchairs 980–1,850 ₾, sofas 2,150–2,490 ₾, TV unit 1,190 ₾, dining set 3,850 ₾, bedroom set 4,200 ₾.',
+    delivery: 'Delivery in Tbilisi is free for orders over 300 ₾. Standard delivery takes 1–3 working days.',
+    returns: 'You can return an item within 14 days if you are not satisfied. Contact us on WhatsApp for the details.',
+    payment: 'To confirm an order, contact us on WhatsApp or by phone. We will confirm the available payment method when placing your order.',
+    contact: 'WhatsApp: +995 505 052 706. Email: felicesofi92@gmail.com. Location: Tbilisi, Georgia.',
+    hours: 'We are open every day from 10:00 to 20:00. You can send questions on WhatsApp at any time.',
+    quality: 'Felice offers premium furniture from Italian and Turkish brands, with exclusive design and comfort in every detail.',
+    custom: 'To order, choose an item from the catalog and contact us on WhatsApp. We can help with size, color and model selection.',
+    catalog: 'Open the Catalog section to see sofas, the dining set, bedroom furniture and the TV unit.',
+    view360: 'In New Arrivals, drag a product image left or right with your finger or mouse to explore it in 360°.',
+    account: 'For account or order help, contact us on WhatsApp at +995 505 052 706. Our team is available every day, 10:00–20:00.',
+    help: 'I can answer questions about products, prices, delivery, returns, payment, 360° views, working hours and orders.',
+    fallback: 'For an exact answer, contact us on WhatsApp: +995 505 052 706. You can also ask about products, prices, delivery or orders.'
+  },
+  ru: {
+    sofa: 'Диван Luxury Velvet рассчитан на 3 места, с золотыми ножками, цена 2 490 ₾. Диван Art Print на 2 места с ботаническим принтом стоит 2 150 ₾.',
+    dining: 'Обеденный комплект из дуба включает стол и 6 стульев. Цена: 3 850 ₾.',
+    bedroom: 'Спальный комплект King Size включает кровать 180×200, прикроватные тумбы и зеркало. Цена: 4 200 ₾.',
+    tv: 'Современная ТВ-тумба шириной 200 см с LED-подсветкой. Цена: 1 190 ₾.',
+    armchair: 'Кресла стоят 980–1 850 ₾: Rope, Accent и Boucle. Их обзор 360° находится в разделе «Новинки».',
+    price: 'Цены: кресла 980–1 850 ₾, диваны 2 150–2 490 ₾, ТВ-тумба 1 190 ₾, обеденный комплект 3 850 ₾, спальня 4 200 ₾.',
+    delivery: 'Доставка по Тбилиси бесплатна при заказе от 300 ₾. Стандартная доставка занимает 1–3 рабочих дня.',
+    returns: 'Товар можно вернуть в течение 14 дней, если вы не удовлетворены покупкой. Подробности уточняйте в WhatsApp.',
+    payment: 'Для оформления заказа свяжитесь с нами в WhatsApp или по телефону. Способ оплаты уточним при оформлении.',
+    contact: 'WhatsApp: +995 505 052 706. Email: felicesofi92@gmail.com. Адрес: Тбилиси, Грузия.',
+    hours: 'Мы работаем каждый день с 10:00 до 20:00. Вопросы в WhatsApp можно отправлять в любое время.',
+    quality: 'Felice предлагает премиальную мебель итальянских и турецких брендов с эксклюзивным дизайном и комфортом.',
+    custom: 'Для заказа выберите товар в каталоге и напишите нам в WhatsApp. Поможем выбрать размер, цвет и модель.',
+    catalog: 'В разделе «Каталог» представлены диваны, обеденный комплект, спальня и ТВ-тумба.',
+    view360: 'В разделе «Новинки» перетаскивайте фото товара пальцем или мышью влево и вправо, чтобы рассмотреть его на 360°.',
+    account: 'По вопросам кабинета или заказа пишите в WhatsApp: +995 505 052 706. Мы работаем ежедневно с 10:00 до 20:00.',
+    help: 'Я отвечу на вопросы о товарах, ценах, доставке, возврате, оплате, обзоре 360°, часах работы и заказах.',
+    fallback: 'Для точного ответа напишите нам в WhatsApp: +995 505 052 706. Также можно спросить о товаре, цене, доставке или заказе.'
+  },
+  tr: {
+    sofa: 'Lüks Kadife Kanepe 3 kişiliktir, altın ayaklıdır ve fiyatı 2.490 ₾. Botanik baskılı Art Print Kanepe 2 kişilik ve 2.150 ₾.',
+    dining: 'Meşe Yemek Takımı masayı ve 6 sandalyeyi içerir. Fiyat: 3.850 ₾.',
+    bedroom: 'King Size yatak odası takımı 180×200 yatak, komodinler ve aynalı şifonyer içerir. Fiyat: 4.200 ₾.',
+    tv: 'Modern TV Ünitesi 200 cm genişliğinde ve LED aydınlatmalıdır. Fiyat: 1.190 ₾.',
+    armchair: 'Koltuk fiyatları 980–1.850 ₾: Rope, Accent ve Boucle modelleri. 360° görünümleri Yeni Gelenler bölümünde görebilirsiniz.',
+    price: 'Fiyatlar: koltuklar 980–1.850 ₾, kanepeler 2.150–2.490 ₾, TV ünitesi 1.190 ₾, yemek takımı 3.850 ₾, yatak odası 4.200 ₾.',
+    delivery: 'Tiflis\'te 300 ₾ üzeri siparişlerde teslimat ücretsizdir. Standart teslimat 1–3 iş günüdür.',
+    returns: 'Memnun kalmazsanız ürünü 14 gün içinde iade edebilirsiniz. Detaylar için WhatsApp üzerinden yazın.',
+    payment: 'Siparişi onaylamak için WhatsApp veya telefonla bize ulaşın. Ödeme yöntemini sipariş sırasında netleştiririz.',
+    contact: 'WhatsApp: +995 505 052 706. E-posta: felicesofi92@gmail.com. Adres: Tiflis, Gürcistan.',
+    hours: 'Her gün 10:00–20:00 saatleri arasında açığız. WhatsApp üzerinden her zaman soru gönderebilirsiniz.',
+    quality: 'Felice, özel tasarım ve konfor sunan İtalyan ve Türk markalarının premium mobilyalarını sunar.',
+    custom: 'Sipariş için katalogdan bir ürün seçip WhatsApp üzerinden bize ulaşın. Ölçü, renk ve model seçiminde yardımcı oluruz.',
+    catalog: 'Katalog bölümünde kanepeleri, yemek takımını, yatak odası takımını ve TV ünitesini görebilirsiniz.',
+    view360: 'Yeni Gelenler bölümünde ürünü 360° incelemek için fotoğrafı parmağınızla veya farenizle sağa-sola sürükleyin.',
+    account: 'Hesap veya sipariş desteği için +995 505 052 706 WhatsApp hattından bize ulaşın. Her gün 10:00–20:00 açığız.',
+    help: 'Ürünler, fiyatlar, teslimat, iade, ödeme, 360° görünüm, çalışma saatleri ve siparişler hakkında cevap verebilirim.',
+    fallback: 'Kesin bilgi için WhatsApp üzerinden bize ulaşın: +995 505 052 706. Ürün, fiyat, teslimat veya sipariş hakkında da sorabilirsiniz.'
+  }
+};
+
+function hasAny(text, words) {
+  return words.some(word => text.includes(word));
 }
 
 function aiResp(msg) {
-  const d = T[lang]; const m = msg.toLowerCase();
-  if (m === 'sofa' || m.includes('диван') || m.includes('kanepe') || m.includes('დივ'))  return d.ai_sofa;
-  if (m === 'price'|| m.includes('ფას') || m.includes('цен')  || m.includes('fiyat'))    return d.ai_price;
-  if (m === 'delivery'||m.includes('მიწ')||m.includes('доставк')||m.includes('teslimat'))return d.ai_delivery;
-  if (m === '360'  || m.includes('360'))                                                  return d.ai_360;
-  return d.ai_default;
+  const m = msg.toLocaleLowerCase();
+  const a = AI_KNOWLEDGE[lang] || AI_KNOWLEDGE.ka;
+  if (m === 'sofa' || hasAny(m, ['დივან', 'sofa', 'диван', 'kanepe'])) return a.sofa;
+  if (hasAny(m, ['სასადილ', 'მაგიდა', 'dining', 'table', 'обеден', 'стол', 'yemek', 'masa'])) return a.dining;
+  if (hasAny(m, ['საძინ', 'bedroom', 'кроват', 'спальн', 'yatak', 'uyku'])) return a.bedroom;
+  if (hasAny(m, ['tv', 'ტვ', 'ტელევიზ', 'телевиз', 'televizyon'])) return a.tv;
+  if (hasAny(m, ['სავარძ', 'armchair', 'кресл', 'koltuk'])) return a.armchair;
+  if (m === 'delivery' || hasAny(m, ['მიწოდ', 'დоставк', 'delivery', 'teslimat'])) return a.delivery;
+  if (hasAny(m, ['დაბრუნ', 'return', 'возврат', 'iade'])) return a.returns;
+  if (hasAny(m, ['გადახდ', 'payment', 'оплат', 'ödeme'])) return a.payment;
+  if (hasAny(m, ['whatsapp', 'ტელეფონ', 'phone', 'телефон', 'ნომერ', 'номер', 'contact', 'კონტაქტ', 'iletişim'])) return a.contact;
+  if (hasAny(m, ['საათ', 'hour', 'час', 'saat', 'როდის მუშაობ', 'когда работает'])) return a.hours;
+  if (m === '360' || hasAny(m, ['360', 'ნახვა', 'ხედ', 'view', 'обзор', 'görünüm'])) return a.view360;
+  if (hasAny(m, ['ხარისხ', 'quality', 'качеств', 'kalite', 'ბრენდ', 'brand'])) return a.quality;
+  if (hasAny(m, ['შეკვეთ', 'order', 'заказ', 'sipariş', 'მორგ', 'custom', 'размер', 'ölçü'])) return a.custom;
+  if (hasAny(m, ['კატალოგ', 'catalog', 'каталог', 'katalog'])) return a.catalog;
+  if (hasAny(m, ['კაბინეტ', 'account', 'login', 'вход', 'hesap'])) return a.account;
+  if (hasAny(m, ['ფას', 'price', 'цена', 'цен', 'fiyat', 'რამდენ', 'сколько'])) return a.price;
+  if (hasAny(m, ['რა შეგიძლ', 'help', 'помощ', 'yardım', 'what can'])) return a.help;
+  return a.fallback;
 }
 
 function addMsg(txt, type) {
