@@ -423,8 +423,8 @@
     }
     .hero-bg {
       background:
-        linear-gradient(90deg,rgba(47,29,23,.64) 0%,rgba(47,29,23,.32) 46%,rgba(40,27,23,.14) 100%),
-        url('https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1800&q=88') center/cover no-repeat;
+        linear-gradient(90deg,rgba(47,29,23,.72) 0%,rgba(47,29,23,.42) 48%,rgba(40,27,23,.2) 100%),
+        url('hero-bg.jpg') center/cover no-repeat;
     }
     .hero-content { max-width:600px; margin-top:-1.5rem; }
     .hero-badge {
@@ -477,7 +477,7 @@
 <!-- ── HEADER ── -->
 <header>
   <a href="#" class="logo">
-    <img src="https://i.ibb.co/RpwLTkMT/felice-logo-github-1.jpg" alt="Felice">
+    <img src="felice-logo.jpg" alt="Felice">
     <div>
       <div class="logo-text">FELICE</div>
       <div class="logo-sub" data-i18n="tagline">ავეჯის სახლი</div>
@@ -802,7 +802,7 @@
 <!-- ── FOOTER ── -->
 <footer>
   <a href="#" class="logo">
-    <img src="https://i.ibb.co/RpwLTkMT/felice-logo-github-1.jpg" alt="Felice" style="height:38px;width:38px;border-radius:50%;border:1.5px solid var(--accent)">
+    <img src="felice-logo.jpg" alt="Felice" style="height:38px;width:38px;border-radius:50%;border:1.5px solid var(--accent)">
     <div class="logo-text" style="font-size:1.1rem">FELICE</div>
   </a>
   <p data-i18n="footer_copy">© 2026 Felice — ავეჯის სახლი. ყველა უფლება დაცულია.</p>
@@ -1099,7 +1099,7 @@ function setImageValue(id, value) {
   if (item) item.image = value;
   if (id === 'hero_bg') {
     document.querySelector('.hero-bg').style.backgroundImage =
-      `linear-gradient(rgba(255,255,255,.45), rgba(255,255,255,.6)), url("${value}")`;
+      `linear-gradient(90deg,rgba(47,29,23,.72) 0%,rgba(47,29,23,.42) 48%,rgba(40,27,23,.2) 100%), url("${value}")`;
     return;
   }
   if (id === 'v1_image') {
