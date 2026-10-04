@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Felice | პრემიუმ ავეჯის სახლი</title>
+  <link id="site-favicon" rel="icon" href="/felice-logo.png">
   <style>
     :root {
       --bg:      #ffffff;
@@ -305,6 +306,11 @@
     }
     .admin-toolbar strong { margin-right:auto; font-size:.82rem; }
     .admin-toolbar small { width:100%; color:#d9e4da; font-size:.7rem; }
+    .admin-logo-tools { display:flex; align-items:center; gap:.4rem; padding:.22rem .45rem; border:1px solid rgba(255,255,255,.22); border-radius:6px; }
+    .admin-logo-tools > span { font-size:.72rem; font-weight:700; }
+    .admin-logo-tools img { width:30px; height:30px; object-fit:contain; border-radius:50%; background:#fffaf5; }
+    .admin-logo-tools input { display:none; }
+    .admin-logo-status { width:100%; min-height:1em; color:#e8dfd3; font-size:.66rem; }
     .admin-toolbar button, .admin-controls button {
       border:1px solid rgba(255,255,255,.28); background:rgba(255,255,255,.1);
       color:inherit; border-radius:4px; padding:.35rem .6rem; cursor:pointer;
@@ -358,6 +364,7 @@
     .admin-field textarea { min-height:78px; resize:vertical; }
     .admin-modal-actions { display:flex; justify-content:flex-end; gap:.55rem; margin-top:1.1rem; }
     .admin-modal-actions button { border:0; border-radius:5px; padding:.6rem .9rem; cursor:pointer; font-weight:600; }
+    .admin-login-error { min-height:1.1rem; margin-top:.7rem; color:#a13f31; font-size:.76rem; }
     .admin-cancel { background:var(--bg2); color:var(--muted); }
     .admin-save { background:var(--accent); color:#fff; }
     .admin-note { margin-top:.8rem; color:var(--muted); font-size:.7rem; line-height:1.45; }
@@ -401,7 +408,7 @@
       border-bottom:1px solid rgba(74,51,41,.14); box-shadow:0 1px 7px rgba(0,0,0,.04);
     }
     .logo { gap:.42rem; flex-shrink:0; }
-    .logo img { width:31px; height:31px; border:1px solid #b8a590; }
+    .logo img { height:40px; width:auto; object-fit:contain; border-radius:50%; border:1px solid #b8a590; }
     .logo-text { color:#453127; font-size:1rem; letter-spacing:2px; line-height:1; }
     .logo-sub { color:#8d7b6d; font-size:.45rem; letter-spacing:.8px; margin-top:.18rem; }
     nav { gap:1.05rem; }
@@ -454,7 +461,7 @@
       nav { display:flex; gap:.62rem; min-width:0; overflow:hidden; }
       nav a { font-size:.52rem; }
       .burger { display:none; }
-      .logo img { width:29px; height:29px; }
+      .logo img { height:40px; width:auto; }
       .logo-text { font-size:.88rem; }
       .logo-sub { font-size:.38rem; }
       header > div { gap:.25rem !important; }
@@ -477,7 +484,7 @@
 <!-- ── HEADER ── -->
 <header>
   <a href="#" class="logo">
-    <img src="felice-logo.jpg" alt="Felice">
+    <img id="site-logo-image" src="/felice-logo.png" alt="Felice" onerror="this.hidden=true">
     <div>
       <div class="logo-text">FELICE</div>
       <div class="logo-sub" data-i18n="tagline">ავეჯის სახლი</div>
@@ -513,11 +520,18 @@
 
 <div id="admin-toolbar" class="admin-toolbar" role="toolbar" aria-label="ადმინისტრატორის ხელსაწყოები">
   <strong>⚙ ადმინისტრატორის რეჟიმი</strong>
+  <div class="admin-logo-tools">
+    <span>ლოგო</span>
+    <img id="admin-logo-preview" src="/felice-logo.png" alt="ლოგოს პრევიუ" onerror="this.hidden=true">
+    <input id="admin-logo-file" type="file" accept="image/png,image/jpeg,image/webp">
+    <button type="button" onclick="document.getElementById('admin-logo-file').click()">ატვირთვა</button>
+  </div>
   <button type="button" onclick="openAdminEditor('scope','hero')">ტექსტები</button>
   <button type="button" onclick="openAdminEditor('create-product')">＋ პროდუქტი</button>
   <button type="button" onclick="openAdminEditor('create-partner')">＋ პარტნიორი</button>
   <button type="button" onclick="exitAdminMode()">დახურვა</button>
   <small>ცვლილებები ამ ბრაუზერში ინახება. საჯარო საიტზე ყველა მოწყობილობიდან გასაზიარებლად საჭიროა მონაცემთა ბაზასთან დაკავშირება.</small>
+  <small id="admin-logo-status" class="admin-logo-status" role="status" aria-live="polite"></small>
 </div>
 
 <!-- ── HERO ── -->
@@ -833,6 +847,27 @@
 </div>
 <button class="ai-fab" onclick="toggleAI()">🤖</button>
 
+<!-- ── ADMIN SIGN-IN ── -->
+<div id="admin-login-backdrop" class="admin-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="admin-login-title">
+  <form class="admin-modal" onsubmit="submitAdminLogin(event)">
+    <div class="admin-modal-header">
+      <h3 id="admin-login-title">ადმინისტრატორის შესვლა</h3>
+      <button class="admin-modal-close" type="button" onclick="closeAdminLogin()" aria-label="დახურვა">✕</button>
+    </div>
+    <div class="admin-form-fields">
+      <div class="admin-field">
+        <label for="admin-login-password">პაროლი</label>
+        <input id="admin-login-password" name="password" type="password" autocomplete="current-password" required>
+      </div>
+    </div>
+    <p id="admin-login-error" class="admin-login-error" role="alert"></p>
+    <div class="admin-modal-actions">
+      <button type="button" class="admin-cancel" onclick="closeAdminLogin()">გაუქმება</button>
+      <button type="submit" class="admin-save">შესვლა</button>
+    </div>
+  </form>
+</div>
+
 <!-- ── ADMIN EDITOR ── -->
 <div id="admin-modal-backdrop" class="admin-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="admin-modal-title">
   <form id="admin-form" class="admin-modal" onsubmit="saveAdminForm(event)">
@@ -1122,20 +1157,170 @@ function applySavedAdminContent() {
   renderSavedGallery();
 }
 
-function toggleAdminMode() {
-  document.body.classList.toggle('admin-mode');
+function enterAdminMode() {
+  document.body.classList.add('admin-mode');
+  document.querySelector('.admin-nav-btn')?.setAttribute('aria-pressed', 'true');
+  renderPartners();
+  refreshAdminLogoPreview();
+  alert('ადმინისტრატორის რეჟიმი ჩართულია. აირჩიეთ სასურველი რედაქტირების ღილაკი.');
+}
+
+async function toggleAdminMode() {
   if (document.body.classList.contains('admin-mode')) {
-    document.querySelector('.admin-nav-btn')?.setAttribute('aria-pressed', 'true');
-    renderPartners();
-    alert('ადმინისტრატორის რეჟიმი ჩართულია. აირჩიეთ სასურველი რედაქტირების ღილაკი.');
-  } else {
-    closeAdminEditor();
+    exitAdminMode();
+    return;
+  }
+  try {
+    const response = await fetch('/api/admin/session', { credentials:'same-origin', cache:'no-store' });
+    const result = await response.json();
+    if (response.ok && result.authenticated) enterAdminMode();
+    else openAdminLogin();
+  } catch (error) {
+    openAdminLogin();
+    document.getElementById('admin-login-error').textContent = 'ავტორიზაციის სერვისი მიუწვდომელია.';
+  }
+}
+
+function openAdminLogin() {
+  document.getElementById('admin-login-error').textContent = '';
+  document.getElementById('admin-login-backdrop').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => document.getElementById('admin-login-password').focus(), 50);
+}
+
+function closeAdminLogin() {
+  document.getElementById('admin-login-backdrop').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+async function submitAdminLogin(event) {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const password = document.getElementById('admin-login-password').value;
+  const error = document.getElementById('admin-login-error');
+  const submit = form.querySelector('[type="submit"]');
+  error.textContent = '';
+  submit.disabled = true;
+  try {
+    const response = await fetch('/api/admin/login', {
+      method:'POST',
+      credentials:'same-origin',
+      headers:{ 'Content-Type':'application/json' },
+      body:JSON.stringify({ password })
+    });
+    const result = await response.json();
+    if (!response.ok || !result.authenticated) {
+      error.textContent = result.error || 'პაროლი არასწორია ან ავტორიზაცია ჯერ არ არის გამართული.';
+      return;
+    }
+    form.reset();
+    closeAdminLogin();
+    enterAdminMode();
+  } catch (requestError) {
+    error.textContent = 'შესვლა ვერ მოხერხდა. სცადეთ მოგვიანებით.';
+  } finally {
+    submit.disabled = false;
   }
 }
 
 function exitAdminMode() {
+  const wasAdminMode = document.body.classList.contains('admin-mode');
   document.body.classList.remove('admin-mode');
+  document.querySelector('.admin-nav-btn')?.setAttribute('aria-pressed', 'false');
   closeAdminEditor();
+  if (wasAdminMode) {
+    fetch('/api/admin/logout', {
+      method:'POST',
+      credentials:'same-origin',
+      headers:{ 'Content-Type':'application/json' },
+      body:'{}'
+    }).catch(() => {});
+  }
+}
+
+function refreshAdminLogoPreview() {
+  const source = document.getElementById('site-logo-image')?.src || '/felice-logo.png';
+  const preview = document.getElementById('admin-logo-preview');
+  if (preview) {
+    preview.hidden = false;
+    preview.src = source;
+  }
+}
+
+function applySiteLogo(url) {
+  const source = url || '/felice-logo.png';
+  const image = document.getElementById('site-logo-image');
+  const favicon = document.getElementById('site-favicon');
+  if (image) {
+    image.hidden = false;
+    image.src = source;
+  }
+  if (favicon) favicon.href = source;
+  refreshAdminLogoPreview();
+}
+
+async function loadSiteLogo() {
+  try {
+    const response = await fetch('/api/site-logo', { cache:'no-store' });
+    if (!response.ok) return;
+    const result = await response.json();
+    if (result.logoUrl) applySiteLogo(result.logoUrl);
+  } catch (error) {
+    /* Keep the bundled logo if the public settings endpoint is unavailable. */
+  }
+}
+
+function readLogoFile(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result || ''));
+    reader.onerror = () => reject(new Error('photo-read-failed'));
+    reader.readAsDataURL(file);
+  });
+}
+
+async function uploadSiteLogo(event) {
+  const file = event.target.files?.[0];
+  const status = document.getElementById('admin-logo-status');
+  if (!file) return;
+  const allowedTypes = ['image/png', 'image/jpeg', 'image/webp'];
+  if (!allowedTypes.includes(file.type)) {
+    status.textContent = 'აირჩიეთ მხოლოდ PNG, JPG ან WEBP.';
+    event.target.value = '';
+    return;
+  }
+  if (file.size > 3 * 1024 * 1024) {
+    status.textContent = 'ლოგოს ზომა არ უნდა აღემატებოდეს 3MB-ს.';
+    event.target.value = '';
+    return;
+  }
+  status.textContent = 'იტვირთება…';
+  try {
+    const dataUrl = await readLogoFile(file);
+    const base64 = dataUrl.split(',')[1];
+    const response = await fetch('/api/admin/logo', {
+      method:'POST',
+      credentials:'same-origin',
+      headers:{ 'Content-Type':'application/json' },
+      body:JSON.stringify({ mimeType:file.type, base64 })
+    });
+    const result = await response.json();
+    if (response.status === 401) {
+      exitAdminMode();
+      openAdminLogin();
+      status.textContent = '';
+      return;
+    }
+    if (!response.ok || !result.logoUrl) throw new Error(result.error || 'upload-failed');
+    applySiteLogo(result.logoUrl);
+    status.textContent = 'ლოგო წარმატებით განახლდა.';
+  } catch (error) {
+    status.textContent = error.message === 'upload-failed'
+      ? 'ატვირთვა ვერ მოხერხდა. შეამოწმეთ Storage და მონაცემთა ბაზის კონფიგურაცია.'
+      : 'ლოგოს ატვირთვა ვერ მოხერხდა.';
+  } finally {
+    event.target.value = '';
+  }
 }
 
 function addAdminField(container, config) {
@@ -1610,8 +1795,10 @@ function askAI(q) { addMsg(T[lang]['chip'+['sofa','price','delivery','360'].inde
 initializeRotatableStages();
 
 /* Restore saved admin values after all static content and widgets exist. */
+document.getElementById('admin-logo-file').addEventListener('change', uploadSiteLogo);
 applyTranslations();
 applySavedAdminContent();
+loadSiteLogo();
 
 /* ── Form ── */
 function sendForm(e){ e.preventDefault(); alert(T[lang].form_ok); e.target.reset(); }
