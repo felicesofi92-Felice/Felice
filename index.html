@@ -856,6 +856,10 @@
     </div>
     <div class="admin-form-fields">
       <div class="admin-field">
+        <label for="admin-login-email">ელფოსტა</label>
+        <input id="admin-login-email" name="email" type="email" autocomplete="username" required>
+      </div>
+      <div class="admin-field">
         <label for="admin-login-password">პაროლი</label>
         <input id="admin-login-password" name="password" type="password" autocomplete="current-password" required>
       </div>
@@ -1185,7 +1189,7 @@ function openAdminLogin() {
   document.getElementById('admin-login-error').textContent = '';
   document.getElementById('admin-login-backdrop').classList.add('open');
   document.body.style.overflow = 'hidden';
-  setTimeout(() => document.getElementById('admin-login-password').focus(), 50);
+  setTimeout(() => document.getElementById('admin-login-email').focus(), 50);
 }
 
 function closeAdminLogin() {
@@ -1196,6 +1200,7 @@ function closeAdminLogin() {
 async function submitAdminLogin(event) {
   event.preventDefault();
   const form = event.currentTarget;
+  const email = document.getElementById('admin-login-email').value.trim();
   const password = document.getElementById('admin-login-password').value;
   const error = document.getElementById('admin-login-error');
   const submit = form.querySelector('[type="submit"]');
@@ -1206,11 +1211,11 @@ async function submitAdminLogin(event) {
       method:'POST',
       credentials:'same-origin',
       headers:{ 'Content-Type':'application/json' },
-      body:JSON.stringify({ password })
+      body:JSON.stringify({ email, password })
     });
     const result = await response.json();
     if (!response.ok || !result.authenticated) {
-      error.textContent = result.error || 'პაროლი არასწორია ან ავტორიზაცია ჯერ არ არის გამართული.';
+      error.textContent = result.error || 'ელფოსტა ან პაროლი არასწორია, ან ავტორიზაცია ჯერ არ არის გამართული.';
       return;
     }
     form.reset();

@@ -6,7 +6,7 @@ const {
 } = require("../../server/admin-security.cjs");
 const { timingSafeEqual } = require("node:crypto");
 
-function safePasswordMatch(provided, expected) {
+function safeStringMatch(provided, expected) {
   const providedBytes = Buffer.from(provided);
   const expectedBytes = Buffer.from(expected);
   return providedBytes.length === expectedBytes.length && timingSafeEqual(providedBytes, expectedBytes);
@@ -19,15 +19,20 @@ module.exports = function login(req, res) {
   }
   if (!isSameOrigin(req)) return sendJson(res, 403, { error: "Request origin rejected" });
 
+  const expectedEmail = process.env.ADMIN_EMAIL?.trim().toLowerCase();
   const expectedPassword = process.env.ADMIN_PASSWORD;
   const sessionSecret = process.env.SESSION_SECRET;
-  if (!expectedPassword || !sessionSecret) {
+  if (!expectedEmail || !expectedPassword || !sessionSecret) {
     return sendJson(res, 503, { error: "Admin sign-in is not configured" });
   }
 
-  const password = requestBody(req).password;
-  if (typeof password !== "string" || password.length > 1024 || !safePasswordMatch(password, expectedPassword)) {
-    return sendJson(res, 401, { error: "პაროლი არასწორია." });
+  const body = requestBody(req);
+  const email = typeof body.email === "string" ? body.email.trim().toLowerCase() : "";
+  const password = typeof body.password === "string" ? body.password : "";
+  const validEmail = email.length <= 254 && safeStringMatch(email, expectedEmail);
+  const validPassword = password.length <= 1024 && safeStringMatch(password, expectedPassword);
+  if (!validEmail || !validPassword) {
+    return sendJson(res, 401, { error: "ელფოსტა ან პაროლი არასწორია." });
   }
 
   try {
